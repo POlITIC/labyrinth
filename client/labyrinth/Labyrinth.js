@@ -112,7 +112,7 @@ Labyrinth.prototype.getRandomLine = function () {
     var line = [];
 
     for (var i = 0; i < this.width; i++) {
-        line.push(Math.round(Math.random() - 0.));
+        line.push(Math.round(Math.random() - 0.3));
     }
 
     return line;
