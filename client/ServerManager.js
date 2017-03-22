@@ -8,6 +8,8 @@ function ServerManager() {
     this.initAction(this.getURLParam("level"));
 
     window.serverManager = this;
+
+    this.log = [];
 };
 
 ServerManager.prototype.getURLParam = function (name, url) {
@@ -85,6 +87,7 @@ ServerManager.prototype.processResponse = function (responseText) {
 
         // playerManager.addPlayer(new Player)
         playerManager.updatePlayers(response.players);
+        this.log.push(response.players);
 
         legend.init();
 
@@ -93,6 +96,7 @@ ServerManager.prototype.processResponse = function (responseText) {
     if(response.action === "update"){
         playerManager.updatePlayers(response.players);
         legend.update();
+        this.log.push(response.players);
     }
 
 };
