@@ -72,7 +72,7 @@ PlayerManager.prototype.makeMove = function () {
             return;
         }
 
-        var data = _getPlayerData(player),
+        var data = me.getPlayerData(player),
             victim = data.playerInSight,
             action;
 
