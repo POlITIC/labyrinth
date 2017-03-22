@@ -65,8 +65,6 @@ function makeMove() {
 
             action = player.makeMove(secureData);
 
-        console.log("VICTIM", victim);
-
         if (action === "fire" && victim) {
             victim.victim = true;
             victim.aimedDir = (victim.currentPosition.left === player.currentPosition.left) ? "left" : "top";

@@ -42,7 +42,6 @@ InputManager.prototype.initCodeMirror = function (div) {
         mode:  "javascript"
     });
 
-    console.log("MORRO", this.codeMirror.doc.getValue());
 };
 
 InputManager.prototype.initButtons = function () {
