@@ -128,6 +128,7 @@ PlayerManager.prototype.getPlayerData = function (player) {
     return {
         surrounding: surrounding,
         pos: pos,
+        direction: rotation,
         exit: player.exitPoint,
         playerInSight: playerInSight,
         playersAlive: playersAlive
