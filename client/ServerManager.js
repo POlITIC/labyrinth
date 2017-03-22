@@ -1,5 +1,5 @@
 function ServerManager() {
-    this.url = this.getURLParam("server") || "http://localhost:4040";
+    this.url = this.getURLParam("server") || "http://10.96.10.58:4040";
 
     console.log("URL", this.url);
 
