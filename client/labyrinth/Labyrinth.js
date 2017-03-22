@@ -5,7 +5,7 @@ function Labyrinth() {
     this.blockWidth = Global.blockWidth;
     this.emptyRadius = Global.emptyRadius;
 
-    // this.init();
+    this.init();
 
     this.setConfig([
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
