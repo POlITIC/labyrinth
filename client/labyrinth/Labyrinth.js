@@ -37,7 +37,6 @@ Labyrinth.prototype.generate = function () {
 
     this.wrapInWalls();
 
-    console.log("LADDDDDD", JSON.stringify({s: this.config}));
 };
 
 Labyrinth.prototype.initView = function () {
@@ -83,11 +82,11 @@ Labyrinth.prototype.getWallLine = function (length) {
         randomDoorNum = 1 + Math.floor(Math.random() * length - 1);
 
     while (result.length < length) {
-        if (result.length === randomDoorNum) {
-            result.push(0);
-        } else {
+        // if (result.length === randomDoorNum) {
+        //     result.push(0);
+        // } else {
             result.push(1);
-        }
+        // }
     }
 
     return {line: result, door: randomDoorNum};
@@ -113,7 +112,7 @@ Labyrinth.prototype.getRandomLine = function () {
     var line = [];
 
     for (var i = 0; i < this.width; i++) {
-        line.push(Math.round(Math.random() - 0.4));
+        line.push(Math.round(Math.random() - 0.));
     }
 
     return line;
