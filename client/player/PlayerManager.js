@@ -50,7 +50,7 @@ PlayerManager.prototype.addPlayerCallback = function (cb, name) {
         player;
 
     if(!playerInfo){
-        player = new Player(9, 13);
+        player = new Player(1, 2);
         this.addPlayer(player, name);
     }else{
         player = playerInfo.player;
