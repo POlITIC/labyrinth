@@ -191,7 +191,7 @@ function _getInterception(pos, rot, actor) {
 
                 if ((rot === Global.DIRECTIONS.RIGHT && distance > 0) || (rot === Global.DIRECTIONS.LEFT && distance < 0)) {
                     // check for walls between
-                    console.log("HORi", pos.top, pos.top + distance, inc);
+                    console.log("HORi", pos.left, pos.left + distance, inc);
                     for (i = pos.left; i !== pos.left + distance; i += inc) {
                         if (labyrinth.getCurrentConfig()[i][pos.top]) {
                             wallInBetween = true;
