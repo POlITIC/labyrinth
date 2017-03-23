@@ -13,7 +13,6 @@ var Player = require("./Player"),
 function createPlayer(callbackString, name) {
 
     if(!playerInfos[name]){
-        console.log("SCRI", callbackString);
         var player = new Player({
             cb: new vm.Script(callbackString),
             name: name

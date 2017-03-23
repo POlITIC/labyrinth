@@ -65,10 +65,11 @@ InputManager.prototype.initButtons = function () {
     submitButton.type = "button";
     submitButton.value = "Submit";
     submitButton.onclick = function(e){
+
         if(me.nameInput.value !== ""){
             me.submit({
                 name: me.nameInput.value,
-                code: me.getCodeString()
+                code: encodeURIComponent(me.getCodeString())
             });
         }else{
             console.error("Name field is empty!");
