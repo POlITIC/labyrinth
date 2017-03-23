@@ -1,5 +1,6 @@
 var Player = require("./Player"),
     Global = require("./Global"),
+    _eval = require("eval"),
     labyrinth = require("./labyrinth"),
     actionTypes = {
         move: ["left", "right", "up", "down"],
@@ -13,7 +14,7 @@ function createPlayer(callbackString, name) {
 
     if(!playerInfos[name]){
         var player = new Player({
-            cb: eval(callbackString),
+            cb: _eval(callbackString),
             name: name
         });
 
@@ -21,7 +22,7 @@ function createPlayer(callbackString, name) {
         playerInfos[name] = player;
 
     }else{
-        playerInfos[name].moveCallback = eval(callbackString);
+        playerInfos[name].moveCallback = _eval(callbackString);
     }
 };
 
