@@ -9,8 +9,9 @@ var Player = require("./Player"),
     players = [],
     playerInfos = {};
 
-function changeLevel(level) {
+function changeLevel() {
     var freePos = labyrinth.getFreeStart();
+    
     players.forEach(function(p){
         p.currentPosition = {
             left: freePos[0],
