@@ -14,7 +14,7 @@ function createPlayer(callbackString, name) {
 
     if(!playerInfos[name]){
         var player = new Player({
-            cb: new vm.Script(callbackString),
+            cb: eval(callbackString),
             name: name
         });
 
@@ -22,7 +22,7 @@ function createPlayer(callbackString, name) {
         playerInfos[name] = player;
 
     }else{
-        playerInfos[name].moveCalslback = new vm.Script(callbackString);
+        playerInfos[name].moveCalslback = eval(callbackString);
     }
 };
 
