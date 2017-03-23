@@ -4,6 +4,7 @@ var G = require("./Global"),
 function Player(conf) {
     this.init(conf);
     this.savedData = {};
+    this.dirtyPos = 0;
 };
 
 Player.prototype.init = function (conf) {
@@ -54,21 +55,37 @@ Player.prototype.getSurrounding = function () {
     return result;
 };
 
+Player.prototype.positionChanged = function(){
+    this.dirtyPos = 0;
+};
+
+Player.prototype.checkPositionChange = function(){
+    if(this.dirtyPos > 15){
+        this.hit();
+    }else{
+        this.dirtyPos++;
+    }
+};
+
 Player.prototype.performAction = function (action) {
     var pos = this.currentPosition;
 
     switch (action) {
         case "up":
             pos.top--;
+            this.positionChanged();
             break;
         case "down":
             pos.top++;
+            this.positionChanged();
             break;
         case "right":
             pos.left++;
+            this.positionChanged();
             break;
         case "left":
             pos.left--;
+            this.positionChanged();
             break;
         case "direction_left":
             this.direction = G.DIRECTIONS.LEFT;
@@ -83,6 +100,8 @@ Player.prototype.performAction = function (action) {
             this.direction = G.DIRECTIONS.DOWN;
             break
     }
+
+    this.checkPositionChange();
 
 };
 

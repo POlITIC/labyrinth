@@ -35,7 +35,7 @@ PlayerManager.prototype.addPlayer = function (player, id) {
 
     player.setColor(color);
     player.id = id;
-    
+
     this.playersInfo[id] = {
         player: player,
         color: color
@@ -49,10 +49,10 @@ PlayerManager.prototype.addPlayerCallback = function (cb, name) {
     var playerInfo = this.playersInfo[name],
         player;
 
-    if(!playerInfo){
+    if (!playerInfo) {
         player = new Player(1, 2);
         this.addPlayer(player, name);
-    }else{
+    } else {
         player = playerInfo.player;
     }
 
@@ -123,7 +123,7 @@ PlayerManager.prototype.getPlayerData = function (player) {
         surrounding = player.getSurrounding(),
         playerInSight = me.getInterception(pos, rotation, player),
         playersAlive = me.countAlivePlayers();
-    
+
 
     return {
         surrounding: surrounding,
@@ -142,7 +142,7 @@ PlayerManager.prototype.countAlivePlayers = function () {
     var result = 0;
 
     this.players.forEach(function (p) {
-        if(!p.dead){
+        if (!p.dead) {
             result++;
         }
     });
@@ -151,8 +151,8 @@ PlayerManager.prototype.countAlivePlayers = function () {
 };
 
 PlayerManager.prototype.updatePlayers = function (playersObj) {
-    for(var name in playersObj){
-        if(playersObj.hasOwnProperty(name)){
+    for (var name in playersObj) {
+        if (playersObj.hasOwnProperty(name)) {
             var p = this.playersInfo[name].player;
 
             p.update(playersObj[name]);
@@ -226,7 +226,6 @@ PlayerManager.prototype.processActions = function (actions) {
             action = actionObj.action;
 
         if (me.actionTypes.move.indexOf(action) > -1 && me.canDoMove(action, actionObj.moveData.surrounding)) {
-
             player.performAction(action);
         }
     });
@@ -242,6 +241,8 @@ PlayerManager.prototype.processActions = function (actions) {
                 victim.hit();
             }
         }
+
+        actor.checkPositionChange();
     });
 
     //process rotate

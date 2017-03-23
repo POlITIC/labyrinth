@@ -120,6 +120,7 @@ function _processActions(actions) {
 
         if (actionTypes.move.indexOf(action) > -1 && _canDoMove(action, actionObj.moveData.surrounding)) {
 
+            
             player.performAction(action);
         }
     });
@@ -135,6 +136,7 @@ function _processActions(actions) {
                 victim.hit();
             }
         }
+        actor.checkPositionChange();
     });
 
     //process rotate
