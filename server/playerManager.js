@@ -172,7 +172,7 @@ function _getInterception(pos, rot, actor) {
             if ((rot === Global.DIRECTIONS.DOWN && distance > 0) || (rot === Global.DIRECTIONS.UP && distance < 0)) {
                 // check for walls between
                 for (i = pos.top; i < pos.top + distance; i += inc) {
-                    if (labyrinth.getCurrentConfig()[pos.left][i]) {
+                    if (labyrinth.getCurrentConfig()[i][pos.left]) {
                         wallInBetween = true;
                     }
                 }
@@ -191,7 +191,7 @@ function _getInterception(pos, rot, actor) {
                 if ((rot === Global.DIRECTIONS.RIGHT && distance > 0) || (rot === Global.DIRECTIONS.LEFT && distance < 0)) {
                     // check for walls between
                     for (i = pos.left; i !== pos.left + distance; i += inc) {
-                        if (labyrinth.getCurrentConfig()[i][pos.top]) {
+                        if (labyrinth.getCurrentConfig()[pos.top][i]) {
                             wallInBetween = true;
                         }
                     }
