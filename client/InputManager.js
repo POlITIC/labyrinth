@@ -82,7 +82,7 @@ InputManager.prototype.initButtons = function () {
 InputManager.prototype.getCodeString = function () {
     var code = this.codeMirror.doc.getValue();
 
-    var header = "var fun = (function move(data, savedData){ \nvar window = null, document = null;\n",
+    var header = "(function move(data, savedData){ \nvar window = null, document = null;\n",
         footer = "})";
 
     return header + code + footer;
