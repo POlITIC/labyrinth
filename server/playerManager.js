@@ -1,6 +1,5 @@
 var Player = require("./Player"),
     Global = require("./Global"),
-    vm = require("vm"),
     labyrinth = require("./labyrinth"),
     actionTypes = {
         move: ["left", "right", "up", "down"],
@@ -9,6 +8,16 @@ var Player = require("./Player"),
     },
     players = [],
     playerInfos = {};
+
+function changeLevel(level) {
+    var freePos = labyrinth.getFreeStart();
+    players.forEach(function(p){
+        p.currentPosition = {
+            left: freePos[0],
+            top: freePos[1]
+        };
+    });
+};
 
 function createPlayer(callbackString, name) {
 
@@ -224,6 +233,7 @@ function _countAlivePlayers() {
 }
 
 module.exports = {
+    changeLevel: changeLevel,
     createPlayer: createPlayer,
     makeMove: makeMove,
     getPlayerPositions: getPlayerPositions
