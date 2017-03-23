@@ -242,7 +242,7 @@ Player.prototype.performAction = function (action) {
 Player.prototype.update = function (obj) {
     this.currentPosition = obj.pos;
     this.direction = obj.dir;
-    if(obj.dead){
+    if(obj.dead && !this.dead){
         this.hit();
     }
 
