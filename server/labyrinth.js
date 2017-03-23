@@ -1,8 +1,4 @@
 // level
-
-var playerManager = require("./playerManager");
-
-
 var labyrinthConfigs = {
     0: {
         conf: [
@@ -118,7 +114,7 @@ var labyrinthConfigs = {
 
 function setLevel(levelNum) {
     currentLevel = levelNum;
-    playerManager.changeLevel(levelNum);
+    // playerManager.changeLevel(levelNum);
 };
 
 function getFreeStart() {

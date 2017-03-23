@@ -10,7 +10,6 @@ var Player = require("./Player"),
     playerInfos = {};
 
 function changeLevel() {
-    console.log("SUUUKAAA", labyrinth);
     var freePos = labyrinth.getFreeStart();
     
     players.forEach(function(p){
