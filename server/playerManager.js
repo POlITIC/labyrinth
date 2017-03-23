@@ -204,6 +204,8 @@ function _getInterception(pos, rot, actor) {
         }
     });
 
+    console.log("VIC", playerInSight);
+
     return playerInSight;
 };
 
