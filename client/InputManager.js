@@ -3,25 +3,58 @@ function InputManager() {
 }
 
 InputManager.prototype.init = function () {
+
+    this.userName = serverManager.name;
     this.initNameField();
     this.initDiv();
     this.initCodeMirror(this.wrapperEl);
     this.initButtons();
+    this.initSelector();
+    this.initFileSelector()
+};
+
+
+InputManager.prototype.readTextFile = function(file) {
+        var me = this,
+            reader = new FileReader();
+
+        reader.onload = function(){
+            var text = reader.result;
+            me.codeMirror.doc.setValue(text);
+        };
+        reader.readAsText(file);
+};
+
+
+InputManager.prototype.initFileSelector = function () {
+    var me = this,
+        fileSelector = document.getElementById("initFileSelector");
+    
+    fileSelector.onchange = function (e) {
+        var file = fileSelector.files[0];
+
+        if(file){
+            me.readTextFile(file);
+        }
+    }
+
+
+};
+
+InputManager.prototype.initSelector = function () {
+  var typeSelector = document.getElementById("testType");
+
+    typeSelector.getValue = function () {
+        return this.options[this.selectedIndex].value;
+    };
+
+    this.typeSelector = typeSelector;
 };
 
 InputManager.prototype.initNameField = function () {
-    var nameInput = document.createElement("input"),
-        nameLabel = document.createElement("label");
+    var nameInput = document.getElementById("name");
 
-
-    nameLabel.for = "name";
-    nameLabel.innerText = "Name: ";
-    
-    nameInput.type = "text";
-    nameInput.id = "name";
-
-    document.body.appendChild(nameLabel);
-    document.body.appendChild(nameInput);
+    nameInput.value = this.userName;
 
     this.nameInput = nameInput;
 };
@@ -46,24 +79,16 @@ InputManager.prototype.initCodeMirror = function (div) {
 
 InputManager.prototype.initButtons = function () {
     var me = this,
-        div = document.createElement("div"),
-        testButton = document.createElement("input"),
-        submitButton = document.createElement("input");
+        testButton = document.getElementById("restartButton"),
+        submitButton = document.getElementById("submitButton");
 
-    div.id = "buttons";
-
-    testButton.type = "button";
-    testButton.value = "Test";
     testButton.onclick = function(e){
         console.log("TEST BUTTON CLICKED");
-        var code = me.getCodeString();
 
-        me.test(code);
+        me.test({
+            code: encodeURIComponent(me.getCodeString())
+        });
     };
-    div.appendChild(testButton);
-
-    submitButton.type = "button";
-    submitButton.value = "Submit";
     submitButton.onclick = function(e){
 
         if(me.nameInput.value !== ""){
@@ -75,9 +100,6 @@ InputManager.prototype.initButtons = function () {
             console.error("Name field is empty!");
         }
     };
-    div.appendChild(submitButton);
-
-    document.body.appendChild(div);
 };
 
 InputManager.prototype.getCodeString = function () {
@@ -89,11 +111,13 @@ InputManager.prototype.getCodeString = function () {
     return header + code + footer;
 };
 
-InputManager.prototype.test = function (code) {
-    var func = eval(code);
+InputManager.prototype.test = function (codeObj) {
+    // var func = eval(code);
 
-    playerManager.addPlayerCallback(func, "testUser");
-    clock.start();
+    // playerManager.addPlayerCallback(func, "testUser");
+    serverManager.sendToTest(codeObj);
+
+    // clock.start();
 };
 
 InputManager.prototype.submit = function (submission) {

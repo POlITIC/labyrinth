@@ -1,7 +1,7 @@
 function ModuleLoader() {
     this.modules = {};
 
-    this.initModules();
+    // this.initModules();
 }
 
 ModuleLoader.prototype.addModule = function (classRef, name){

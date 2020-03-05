@@ -233,6 +233,10 @@ function _countAlivePlayers() {
     return result;
 }
 
+function initTestPlayer(codeString) {
+    
+}
+
 module.exports = {
     changeLevel: changeLevel,
     createPlayer: createPlayer,

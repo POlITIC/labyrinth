@@ -17,6 +17,7 @@
         <script type="text/javascript" src="ModuleLoader.js"></script>
         <script type="text/javascript" src="background/Background.js"></script>
         <script type="text/javascript" src="labyrinth/Labyrinth.js"></script>
+        <script type="text/javascript" src="labyrinth/Flag.js"></script>
         <script type="text/javascript" src="player/Player.js"></script>
         <script type="text/javascript" src="player/PlayerManager.js"></script>
         <script type="text/javascript" src="Clock.js"></script>
@@ -24,6 +25,34 @@
         <script type="text/javascript" src="InputManager.js"></script>
         <script type="text/javascript" src="ServerManager.js"></script>
         <script type="text/javascript" src="Legend.js"></script>
+
+    <div id="ui-user" >
+        <label>Name:</label>
+        <input type="text" value="" id="name">
+        <label>Test Type:</label>
+        <select id="testType">
+            <option>singlePlayer</option>
+            <option>ME_vs_ME</option>
+        </select>
+        <input type="button" value="Start" id="restartButton">
+        <input type="button" value="Submit" id="submitButton">
+        <input type="file" id="initFileSelector">
+    </div>
+
+    <div id="ui-admin" style="display: none;">
+        <label>Left Player:</label>
+        <select id="testType">
+            <option>Demo</option>
+        </select>
+
+        <label>Right Player:</label>
+        <select id="testType">
+            <option>Demo</option>
+        </select>
+
+        <input type="button" value="Start" id="startButton">
+        <input type="button" value="Reset" id="resetButton">
+    </div>
 
     </body>
 </html>
