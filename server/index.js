@@ -1,83 +1,85 @@
 var express = require("express"),
-	path = require("path"),
-	bodyParser = require("body-parser"),
-	labyrinth = require("./labyrinth"),
-	playerManager = require("./playerManager"),
-	userManager = require("./userManager"),
-	app = express(),
-	port = 4040;
+    path = require("path"),
+    bodyParser = require("body-parser"),
+    labyrinth = require("./labyrinth"),
+    playerManager = require("./playerManager"),
+    userManager = require("./userManager"),
+    app = express(),
+    port = 4040;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.get("/", function (req, res) {
-	// if(req.query.test){
-	//     // Set to test mode
-	// }
-	// else {
-	//     if(req.query.deathMatch){
-	//         // set to deathMatch mode
-	//     }
-	// }
+    // if(req.query.test){
+    //     // Set to test mode
+    // }
+    // else {
+    //     if(req.query.deathMatch){
+    //         // set to deathMatch mode
+    //     }
+    // }
 
-	res.render("login/login");
+    res.render("login/login");
 });
 
 app.get("/login", function (req, res) {
-	var name = req.query.name;
+    var name = req.query.name;
 
-	if (!name) {
-		res.render("login/login");
-	} else {
-		res.render("index");
-	}
+    if (!name) {
+        res.render("login/login");
+    } else {
+        res.redirect("/index?name="+name);
+    }
 
+});
+
+app.get("/index", (req, res) => {
+    res.render("index");
 });
 
 app.get("/init", function (req, res) {
 
-	var name = req.query.name;
+    var name = req.query.name;
 
-	var user = userManager.getOrCreateUser(name);
+    var user = userManager.getOrCreateUser(name);
 
-	console.log("USER", user);
+    res.send({
+        labyrinth: user.labyrinth.getCurrentConfig(),
+        players: user.players,
+        action: "init"
+    });
 
-	res.send({
-		labyrinth: user.labyrinth.getCurrentConfig(),
-		players: user.players,
-		action: "init"
-	});
-
-	// if (req.query.death) {
-	//     var labConf = labyrinth.getCurrentConfig(),
-	//         playerPoss = playerManager.getPlayerPositions();
-	//
-	//     labyrinth.setLevel(req.query.level);
-	//
-	//     res.send({
-	//         labyrinth: labConf,
-	//         players: playerPoss,
-	//         action: "init"
-	//     });
-	// } else {
-	//     res.send({});
-	// }
+    // if (req.query.death) {
+    //     var labConf = labyrinth.getCurrentConfig(),
+    //         playerPoss = playerManager.getPlayerPositions();
+    //
+    //     labyrinth.setLevel(req.query.level);
+    //
+    //     res.send({
+    //         labyrinth: labConf,
+    //         players: playerPoss,
+    //         action: "init"
+    //     });
+    // } else {
+    //     res.send({});
+    // }
 });
 
 app.post("/submit", function (req, res) {
-	// console.log("POST", req.body);
-	playerManager.createPlayer(req.body.code, req.body.name);
-	res.send({action: "submission"});
+    // console.log("POST", req.body);
+    playerManager.createPlayer(req.body.code, req.body.name);
+    res.send({action: "submission"});
 });
 
 app.post("/test", function (req, res) {
-	var userName = req.body.name,
-		codeString = req.body.code,
-		user = userManager.getOrCreateUser(userName);
+    var userName = req.body.name,
+        codeString = req.body.code,
+        user = userManager.getOrCreateUser(userName);
 
-	user.addCode(codeString);
+    user.addCode(codeString);
 
-	res.send({});
+    res.send({});
 });
 
 app.get("/playersList", function (req, res) {
@@ -90,15 +92,15 @@ app.post("/choosePlayers", function (req, res) {
 
 
 app.post("/update", function (req, res) {
-	// console.log("POST", req.body);
+    // console.log("POST", req.body);
 
-	playerManager.makeMove();
+    playerManager.makeMove();
 
-	var playerPoss = playerManager.getPlayerPositions();
-	res.send({
-		action: "update",
-		players: playerPoss
-	});
+    var playerPoss = playerManager.getPlayerPositions();
+    res.send({
+        action: "update",
+        players: playerPoss
+    });
 });
 
 
@@ -108,11 +110,11 @@ app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "../client")));
 
 app.listen(port, function (err) {
-	if (err) {
-		console.log("SMTH BAD HAPPENED");
-	} else {
-		console.log("LISTENING", port);
-	}
+    if (err) {
+        console.log("SMTH BAD HAPPENED");
+    } else {
+        console.log("LISTENING", port);
+    }
 });
 
 

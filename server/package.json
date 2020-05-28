@@ -8,6 +8,6 @@
     "express": "^4.17.1"
   },
   "scripts": {
-    "server": "node server/index.js"
+    "server": "node ./index.js"
   }
 }

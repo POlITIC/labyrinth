@@ -1,5 +1,4 @@
-const G = require("./Global"),
-    labyrinth = require("./labyrinth");
+const G = require("./Global");
 
 class Player {
 	constructor(conf){
@@ -9,12 +8,16 @@ class Player {
 	}
 
 	init(conf) {
-		const posArr = conf.pos || labyrinth.getFreeStart();
+		this.labyrinth = conf.labyrinth;
+		const posArr = conf.pos || this.labyrinth.getFreeStart();
 
 		this.moveCallback = conf.cb;
 		this.currentPosition = {left: posArr[0], top: posArr[1]};
+
 		this.direction = G.DIRECTIONS.LEFT;
 		this.id = conf.name;
+
+		console.log("PLAYER", this.id, this.currentPosition);
 	}
 
 	makeMove (data) {

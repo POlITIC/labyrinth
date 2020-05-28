@@ -29,7 +29,7 @@ InputManager.prototype.readTextFile = function(file) {
 InputManager.prototype.initFileSelector = function () {
     var me = this,
         fileSelector = document.getElementById("initFileSelector");
-    
+
     fileSelector.onchange = function (e) {
         var file = fileSelector.files[0];
 
@@ -86,7 +86,7 @@ InputManager.prototype.initButtons = function () {
         console.log("TEST BUTTON CLICKED");
 
         me.test({
-            code: encodeURIComponent(me.getCodeString())
+            code: serverManager.deathMatch ? encodeURIComponent(me.getCodeString()) : me.getCodeString()
         });
     };
     submitButton.onclick = function(e){
@@ -112,12 +112,13 @@ InputManager.prototype.getCodeString = function () {
 };
 
 InputManager.prototype.test = function (codeObj) {
-    // var func = eval(code);
+    console.log("CODE STRING", codeObj.code);
+    var func = eval(codeObj.code);
 
-    // playerManager.addPlayerCallback(func, "testUser");
+    playerManager.addPlayerCallback(func, "testUser");
     serverManager.sendToTest(codeObj);
 
-    // clock.start();
+    clock.start();
 };
 
 InputManager.prototype.submit = function (submission) {

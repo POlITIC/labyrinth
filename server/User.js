@@ -1,40 +1,38 @@
 const Player = require("./Player"),
     Labyrinth = require("./Labyrinth");
 
-function User(name) {
-    this.name = name;
-    this.players = [];
-    this.codeCallback;
+class User {
+    constructor(name) {
+        this.name = name;
+        this.players = [];
 
-    this.init();
+        this.init();
+    }
+
+    init() {
+        this.createLabyrinth();
+    }
+
+    addCode(codeString) {
+        this.codeCallback = eval(codeString);
+        this.createAndAddPlayer()
+    }
+
+    createAndAddPlayer(name) {
+        new Player({
+            labyrinth: this.labyrinth,
+            cb: this.codeCallback,
+            name: name || this.name
+        });
+    }
+
+    update() {
+
+    }
+
+    createLabyrinth() {
+        this.labyrinth = new Labyrinth();
+    }
 }
-
-User.prototype.init = function () {
-    this.createLabyrinth();
-};
-
-User.prototype.addCode = function (codeString) {
-    this.codeCallback = eval(codeString);
-    this.createAndAddPlayer()
-};
-
-User.prototype.createAndAddPlayer = function (name) {
-    var me = this,
-        player;
-
-    player = new Player({
-        cb: me.codeCallback,
-        name: name || this.name
-    });
-};
-
-User.prototype.update = function () {
-    
-};
-
-User.prototype.createLabyrinth = function () {
-    this.labyrinth = new Labyrinth();
-};
-
 
 module.exports = User;
