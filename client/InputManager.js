@@ -83,7 +83,6 @@ InputManager.prototype.initButtons = function () {
         submitButton = document.getElementById("submitButton");
 
     testButton.onclick = function(e){
-        console.log("TEST BUTTON CLICKED");
 
         me.test({
             code: serverManager.deathMatch ? encodeURIComponent(me.getCodeString()) : me.getCodeString()
