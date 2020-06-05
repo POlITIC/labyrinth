@@ -1,6 +1,5 @@
 var Player = require("./Player"),
     Global = require("./Global"),
-    labyrinth = require("./labyrinth"),
     actionTypes = {
         move: ["left", "right", "up", "down"],
         assault: ["fire"],
@@ -9,9 +8,21 @@ var Player = require("./Player"),
     players = [],
     playerInfos = {};
 
+let labyrinth;
+
+function _getLabyrinth() {
+    if(labyrinth){
+        return labyrinth;
+    }
+
+    // TODO this should be used in this class everywhere.
+
+    throw new Error("Player manager: Labyrinth is not set;")
+}
+
 function changeLevel() {
     var freePos = labyrinth.getFreeStart();
-    
+
     players.forEach(function(p){
         p.currentPosition = {
             left: freePos[0],
@@ -131,7 +142,7 @@ function _processActions(actions) {
 
         if (actionTypes.move.indexOf(action) > -1 && _canDoMove(action, actionObj.moveData.surrounding)) {
 
-            
+
             player.performAction(action);
         }
     });
@@ -234,7 +245,7 @@ function _countAlivePlayers() {
 }
 
 function initTestPlayer(codeString) {
-    
+
 }
 
 module.exports = {

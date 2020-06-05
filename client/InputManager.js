@@ -70,7 +70,7 @@ InputManager.prototype.initDiv = function () {
 
 InputManager.prototype.initCodeMirror = function (div) {
     this.codeMirror = CodeMirror(div, {
-        value: "return 'right';",
+        value: "return ['left', 'up', 'right', 'down'][Math.floor(Math.random() * 4)];",
         smartIndent: true,
         mode:  "javascript"
     });
@@ -111,7 +111,6 @@ InputManager.prototype.getCodeString = function () {
 };
 
 InputManager.prototype.test = function (codeObj) {
-    console.log("CODE STRING", codeObj.code);
     var func = eval(codeObj.code);
 
     playerManager.addPlayerCallback(func, "testUser");

@@ -69,6 +69,7 @@ app.get("/init", function (req, res) {
 app.post("/submit", function (req, res) {
     // console.log("POST", req.body);
     playerManager.createPlayer(req.body.code, req.body.name);
+
     res.send({action: "submission"});
 });
 
