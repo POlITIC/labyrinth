@@ -3,7 +3,6 @@ function InputManager() {
 }
 
 InputManager.prototype.init = function () {
-
     this.userName = serverManager.name;
     this.initNameField();
     this.initDiv();
@@ -92,6 +91,7 @@ InputManager.prototype.initButtons = function () {
 
         if(me.nameInput.value !== ""){
             me.submit({
+                user: me.userName,
                 name: me.nameInput.value,
                 code: encodeURIComponent(me.getCodeString())
             });

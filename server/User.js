@@ -1,5 +1,6 @@
 const Player = require("./Player"),
-    Labyrinth = require("./Labyrinth");
+    Labyrinth = require("./Labyrinth"),
+    playerManager = require("./playerManager");
 
 class User {
     constructor(name) {
@@ -32,6 +33,7 @@ class User {
 
     createLabyrinth() {
         this.labyrinth = new Labyrinth();
+        playerManager.setLabyrinth(this.labyrinth);
     }
 }
 

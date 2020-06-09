@@ -1,7 +1,6 @@
 var express = require("express"),
     path = require("path"),
     bodyParser = require("body-parser"),
-    labyrinth = require("./labyrinth"),
     playerManager = require("./playerManager"),
     userManager = require("./userManager"),
     app = express(),
@@ -11,20 +10,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.get("/", function (req, res) {
-    // if(req.query.test){
-    //     // Set to test mode
-    // }
-    // else {
-    //     if(req.query.deathMatch){
-    //         // set to deathMatch mode
-    //     }
-    // }
-
     res.render("login/login");
 });
 
 app.get("/login", function (req, res) {
-    var name = req.query.name;
+    const name = req.query.name;
 
     if (!name) {
         res.render("login/login");
@@ -36,6 +26,15 @@ app.get("/login", function (req, res) {
 
 app.get("/index", (req, res) => {
     res.render("index");
+});
+
+app.get("/deathmatch", function (req, res) {
+    const name = req.query.name;
+    if (!name) {
+        res.render("login/login");
+    } else {
+        res.render("deathmatch/deathmatch", {players : playerManager.getUserPlayers(name)});
+    }
 });
 
 app.get("/init", function (req, res) {
@@ -67,8 +66,7 @@ app.get("/init", function (req, res) {
 });
 
 app.post("/submit", function (req, res) {
-    // console.log("POST", req.body);
-    playerManager.createPlayer(req.body.code, req.body.name);
+    playerManager.createPlayer(req.body.code, req.body.name, req.body.user);
 
     res.send({action: "submission"});
 });

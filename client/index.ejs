@@ -1,58 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Labyrinth</title>
-        <link rel="stylesheet" href="external/codemirror.css">
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Labyrinth</title>
+    <link rel="stylesheet" href="external/codemirror.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-        <script type="text/javascript" src="external/pixi.js"></script>
-        <script type="text/javascript" src="external/codemirror.js"></script>
-        <script type="text/javascript" src="external/javascript.js"></script>
-        <script type="text/javascript" src="Global.js"></script>
-        <script type="text/javascript" src="animaiton/Renderer.js"></script>
-        <script type="text/javascript" src="ModuleLoader.js"></script>
-        <script type="text/javascript" src="background/Background.js"></script>
-        <script type="text/javascript" src="labyrinth/Labyrinth.js"></script>
-        <script type="text/javascript" src="labyrinth/Flag.js"></script>
-        <script type="text/javascript" src="player/Player.js"></script>
-        <script type="text/javascript" src="player/PlayerManager.js"></script>
-        <script type="text/javascript" src="Clock.js"></script>
-        <script type="text/javascript" src="main.js"></script>
-        <script type="text/javascript" src="InputManager.js"></script>
-        <script type="text/javascript" src="ServerManager.js"></script>
-        <script type="text/javascript" src="Legend.js"></script>
+<script type="text/javascript" src="external/pixi.js"></script>
+<script type="text/javascript" src="external/codemirror.js"></script>
+<script type="text/javascript" src="external/javascript.js"></script>
+<script type="text/javascript" src="Global.js"></script>
+<script type="text/javascript" src="animaiton/Renderer.js"></script>
+<script type="text/javascript" src="ModuleLoader.js"></script>
+<script type="text/javascript" src="background/Background.js"></script>
+<script type="text/javascript" src="labyrinth/Labyrinth.js"></script>
+<script type="text/javascript" src="labyrinth/Flag.js"></script>
+<script type="text/javascript" src="player/Player.js"></script>
+<script type="text/javascript" src="player/PlayerManager.js"></script>
+<script type="text/javascript" src="Clock.js"></script>
+<script type="text/javascript" src="main.js"></script>
+<script type="text/javascript" src="InputManager.js"></script>
+<script type="text/javascript" src="ServerManager.js"></script>
+<script type="text/javascript" src="Legend.js"></script>
 
-    <div id="ui-user" >
-        <label>Name:</label>
-        <input type="text" value="" id="name">
-        <label>Test Type:</label>
-        <select id="testType">
-            <option>singlePlayer</option>
-            <option>ME_vs_ME</option>
-        </select>
-        <input type="button" value="Start" id="restartButton">
-        <input type="button" value="Submit" id="submitButton">
-        <input type="file" id="initFileSelector">
-    </div>
+<div id="ui-user">
+    // todo should also load already submitted bots <br/>
+    <label>Bot Name:</label>
+    <input type="text" value="" id="name">
+    <label>Test Type:</label>
+    <select id="testType">
+        <option>singlePlayer</option>
+        <option>ME_vs_ME</option>
+    </select>
+    <input type="button" value="Start" id="restartButton">
+    <input type="button" value="Submit" id="submitButton">
+    <input type="file" id="initFileSelector">
+</div>
 
-    <div id="ui-admin" style="display: none;">
-        <label>Left Player:</label>
-        <select id="testType">
-            <option>Demo</option>
-        </select>
+<div id="ui-admin" style="display: none;">
+    <label>Left Player:</label>
+    <select id="testType">
+        <option>Demo</option>
+    </select>
 
-        <label>Right Player:</label>
-        <select id="testType">
-            <option>Demo</option>
-        </select>
+    <label>Right Player:</label>
+    <select id="testType">
+        <option>Demo</option>
+    </select>
 
-        <input type="button" value="Start" id="startButton">
-        <input type="button" value="Reset" id="resetButton">
-    </div>
+    <input type="button" value="Start" id="startButton">
+    <input type="button" value="Reset" id="resetButton">
+</div>
 
-    </body>
+</body>
 </html>

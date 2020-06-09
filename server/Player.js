@@ -16,8 +16,9 @@ class Player {
 
 		this.direction = G.DIRECTIONS.LEFT;
 		this.id = conf.name;
+		this.user = conf.user;
 
-		console.log("PLAYER", this.id, this.currentPosition);
+		console.log("PLAYER", this.id, this.currentPosition, this.user);
 	}
 
 	makeMove (data) {

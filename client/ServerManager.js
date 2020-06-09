@@ -3,6 +3,8 @@ function ServerManager() {
 
     this.name = this.getURLParam("name");
 
+    // console.error("NAME", this.name);
+
     this.initAction(this.name);
 
     this.log = [];

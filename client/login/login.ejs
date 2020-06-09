@@ -9,20 +9,24 @@
     <!-- CSS (load bootstrap from a CDN) -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <style>
-        body    { padding-top:50px; }
+        body {
+            padding-top: 50px;
+        }
     </style>
 </head>
 <body class="container">
 
+<script src="./login/login.js"></script>
+
 <main>
     <div class="jumbotron">
-        <form action="login" method="get">
 
             <label>Name</label>
-            <input type="text" name="name" >
+            <input type="text" name="name" id="name_input">
 
-            <button type="submit">Test</button> <!--Title for button is same as that of the page-->
-        </form>
+            <button id="test_button">Create bot</button> <!-- should go to login-->
+
+            <button id="deathMatch_button">Death Match</button> <!-- should go to deathmatch-->
     </div>
 </main>
 

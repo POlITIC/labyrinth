@@ -8,20 +8,28 @@ var Player = require("./Player"),
     players = [],
     playerInfos = {};
 
-let labyrinth;
+let labyrinthInstance;
 
 function _getLabyrinth() {
-    if(labyrinth){
-        return labyrinth;
+    if(labyrinthInstance){
+        return labyrinthInstance;
     }
-
-    // TODO this should be used in this class everywhere.
 
     throw new Error("Player manager: Labyrinth is not set;")
 }
 
+function getUserPlayers(userName) {
+    return players.filter((player) => {
+        return userName === player.user;
+    });
+}
+
+function setLabyrinth(labyrinth) {
+    labyrinthInstance = labyrinth;
+}
+
 function changeLevel() {
-    var freePos = labyrinth.getFreeStart();
+    var freePos = _getLabyrinth().getFreeStart();
 
     players.forEach(function(p){
         p.currentPosition = {
@@ -31,12 +39,14 @@ function changeLevel() {
     });
 };
 
-function createPlayer(callbackString, name) {
+function createPlayer(callbackString, name, userName) {
 
     if(!playerInfos[name]){
         var player = new Player({
             cb: eval(callbackString),
-            name: name
+            name: name,
+            labyrinth: labyrinthInstance,
+            user: userName
         });
 
         players.push(player);
@@ -194,7 +204,7 @@ function _getInterception(pos, rot, actor) {
                 // check for walls between
                 console.log("VERT", pos.top, pos.top + distance, inc);
                 for (i = pos.top; i !== pos.top + distance; i += inc) {
-                    if (labyrinth.getCurrentConfig()[pos.left][i]) {
+                    if (_getLabyrinth().getCurrentConfig()[pos.left][i]) {
                         wallInBetween = true;
                     }
                 }
@@ -214,7 +224,7 @@ function _getInterception(pos, rot, actor) {
                     // check for walls between
                     console.log("HORi", pos.left, pos.left + distance, inc);
                     for (i = pos.left; i !== pos.left + distance; i += inc) {
-                        if (labyrinth.getCurrentConfig()[i][pos.top]) {
+                        if (_getLabyrinth().getCurrentConfig()[i][pos.top]) {
                             wallInBetween = true;
                         }
                     }
@@ -249,8 +259,10 @@ function initTestPlayer(codeString) {
 }
 
 module.exports = {
-    changeLevel: changeLevel,
-    createPlayer: createPlayer,
-    makeMove: makeMove,
-    getPlayerPositions: getPlayerPositions
+    changeLevel,
+    createPlayer,
+    makeMove,
+    getPlayerPositions,
+    setLabyrinth,
+    getUserPlayers
 };

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- views/partials/head.ejs -->
+
+    <meta charset="UTF-8">
+    <title>Choose players</title>
+
+    <!-- CSS (load bootstrap from a CDN) -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 50px;
+        }
+    </style>
+</head>
+<body class="container">
+<main>
+    <div class="jumbotron">
+        <% if(players.length > 0){ %>
+            Choose a player:
+            <select>
+                <% for (var i = 0; i < players.length; i++) { %>
+                    <option>
+                        <%= players[i].id %>
+                    </option>
+                <% } %>
+            </select>
+        <% } else { %>
+            You don't have any players, go back and create one.
+        <% } %>
+    </div>
+</main>
+
+</body>
+</html>
