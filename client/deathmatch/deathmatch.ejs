@@ -16,8 +16,12 @@
 </head>
 <body class="container">
 <script src="./deathmatch/deathMatch.js"></script>
+<script src="./deathmatch/PlayerSelector.js"></script>
 <main>
-    <div class="jumbotron">
+    <button id="addPlayer_button"> Add player</button>
+    <button id="startMatch_button"> Start match</button>
+
+    <div class="jumbotron" id="addPlayers_parent">
         <% if(players.length > 0){ %>
             Choose a player:
             <select id="playerSelect_0">
@@ -32,9 +36,6 @@
         <% } %>
             <button id="removePlayer_bytton_0">X</button>
     </div>
-
-    <button id="addPlayer_button"> Add player</button>
-    <button id="startMatch_button"> Start match</button>
 </main>
 
 </body>
