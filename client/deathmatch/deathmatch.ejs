@@ -15,11 +15,12 @@
     </style>
 </head>
 <body class="container">
+<script src="./deathmatch/deathMatch.js"></script>
 <main>
     <div class="jumbotron">
         <% if(players.length > 0){ %>
             Choose a player:
-            <select>
+            <select id="playerSelect_0">
                 <% for (var i = 0; i < players.length; i++) { %>
                     <option>
                         <%= players[i].id %>
@@ -29,7 +30,11 @@
         <% } else { %>
             You don't have any players, go back and create one.
         <% } %>
+            <button id="removePlayer_bytton_0">X</button>
     </div>
+
+    <button id="addPlayer_button"> Add player</button>
+    <button id="startMatch_button"> Start match</button>
 </main>
 
 </body>
