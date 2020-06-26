@@ -1,45 +1,52 @@
 document.addEventListener("DOMContentLoaded", function () {
-	var selectorParent = document.getElementById("addPlayers_parent");
-	var playerSelect0 = document.getElementById("playerSelect_0");
 	var addPlayerButton = document.getElementById("addPlayer_button");
 	var startButton = document.getElementById("startMatch_button");
-	var amountOfPlayers = 1;
+	var backButton = document.getElementById("back_button");
+	var parentEl = document.getElementById("addPlayers_parent");
+	let avPlayerNames, selectors = [];
 
-	var playerSelects = [playerSelect0];
+	const createPlayerSelector = function () {
+		var player = new PlayerSelector(selectors, avPlayerNames);
+		selectors.push(player);
+	};
 
-	var getAvailableValues = function () {
-		var result = [];
-		for (var i = 0; i < playerSelect0.children.length; i++) {
-			var option = playerSelect0.children[i];
-			result.push(option.value);
+
+	const getAvailableValues = function () {
+		const elements = parentEl.getElementsByClassName("names_arr_elem");
+		const namesArr = [];
+
+		console.log(elements);
+
+		for (let i = 0; i < elements.length; i++) {
+			let elem = elements[i];
+			namesArr.push(elem.innerText);
 		}
 
-		return result;
+		while (elements[0]) {
+			elements[0].parentNode.removeChild(elements[0]);
+		}
+
+		return namesArr;
 	};
+	avPlayerNames = getAvailableValues();
 
-	var availableValues = getAvailableValues();
-
-	window.SELECT = playerSelect0;
-
-	/**
-	 *
-	 * @param {number} index
-	 */
-	var getSelectedValue = function (index) {
-		var playerSelect = document.getElementById("playerSelect_" + index);
-		return playerSelect.value;
-	};
-
-	var removePlayer = function (index) {
-
-	};
+	createPlayerSelector();
 
 	var addPlayer = function () {
-		var player = new PlayerSelector(selectorParent, amountOfPlayers++, availableValues)
-		playerSelects.push(player.select);
+		createPlayerSelector();
 	};
 
 	addPlayerButton.addEventListener("click", addPlayer);
+	backButton.addEventListener("click", function () {
+		window.location.href = "./login";
+	});
+
+	startButton.addEventListener("click", function () {
+		var selectedNames = selectors.map(function (sel) {
+			return sel.getValue();
+		});
+
+	});
 
 });
 

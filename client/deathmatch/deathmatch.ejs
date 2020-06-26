@@ -20,22 +20,23 @@
 <main>
     <button id="addPlayer_button"> Add player</button>
     <button id="startMatch_button"> Start match</button>
+    <button id="back_button"> Back</button>
 
-    <div class="jumbotron" id="addPlayers_parent">
+    <div id="addPlayers_parent">
         <% if(players.length > 0){ %>
             Choose a player:
-            <select id="playerSelect_0">
-                <% for (var i = 0; i < players.length; i++) { %>
-                    <option>
-                        <%= players[i].id %>
-                    </option>
-                <% } %>
-            </select>
+            <% for (var i = 0; i < players.length; i++) { %>
+                <div class="names_arr_elem">
+                    <%= players[i].id %>
+                </div>
+            <% } %>
+
         <% } else { %>
             You don't have any players, go back and create one.
         <% } %>
-            <button id="removePlayer_bytton_0">X</button>
+
     </div>
+
 </main>
 
 </body>

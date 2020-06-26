@@ -1,6 +1,8 @@
 function ServerManager() {
     this.url = this.getURLParam("server") || "http://localhost:4040";
 
+	console.error("CREATE SERVER MANAGER");
+
     this.name = this.getURLParam("name");
 
     // console.error("NAME", this.name);
