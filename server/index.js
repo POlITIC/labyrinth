@@ -3,24 +3,43 @@ var express = require("express"),
     bodyParser = require("body-parser"),
     playerManager = require("./playerManager"),
     userManager = require("./userManager"),
+	{login} = require("./loginService.js"),
     app = express(),
     port = 4040;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+app.use(function (req, res, next) {
+
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader('Access-Control-Allow-Headers', 'origin, content-type, accept');
+	next();
+});
+
 app.get("/", function (req, res) {
     res.render("login/login");
 });
 
-app.get("/login", function (req, res) {
-    const name = req.query.name;
+app.post("/login", function (req, res) {
+    const name = req.body.name;
 
-    if (!name) {
-        res.render("login/login");
-    } else {
-        res.redirect("/index?name="+name);
-    }
+	console.log("NA<E",  name);
+
+    // if (!name) {
+    //     res.render("login/login");
+    // } else {
+    //     res.redirect("/index?name="+name);
+    // }
+
+
+	const loginResult = login(name);
+	if(loginResult){
+		res.send(loginResult);
+	}else{
+		res.status(500).send('Login Failed');
+	}
+
 
 });
 
