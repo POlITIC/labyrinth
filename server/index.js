@@ -5,6 +5,7 @@ var express = require("express"),
 	userManager = require("./userManager"),
 	{login} = require("./services/loginService.js"),
 	labService = require("./services/labyrinthService.js"),
+	{saveBot} = require("./services/botService"),
 	app = express(),
 	port = 4040;
 
@@ -46,6 +47,12 @@ app.post("/labyrinth", (req, res) => {
 		res.status(404).send('Labyrinth not found');
 	}
 
+});
+
+app.post("/saveBotCode", (req, res) => {
+	saveBot(req.body.botName, req.body.codeString).then((result) => {
+		res.send({result});
+	});
 });
 
 
