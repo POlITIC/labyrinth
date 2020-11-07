@@ -15,9 +15,8 @@ const login = (name) => {
 	if (name) {
 		const token = generateLoginToken();
 
-
 		// TODO check if user exists and bla bla bla
-		// todo  save token
+		// todo save token
 
 		return {
 			token

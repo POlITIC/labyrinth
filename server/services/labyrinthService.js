@@ -34,10 +34,12 @@ const generateRandomLabyrinth = (width, height) => {
 	return result;
 };
 
+const labyrinth = generateRandomLabyrinth(30, 30);
+
 const getById = (id) => {
 	// TODO get labyrinth from db or some storage OR whatever
 
-	return generateRandomLabyrinth(30, 30);
+	return labyrinth;
 };
 
 module.exports = {
