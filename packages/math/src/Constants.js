@@ -1,0 +1,20 @@
+export const ACTIONS = {
+    MOVE_LEFT: "MOVE_LEFT",
+    MOVE_RIGHT: "MOVE_RIGHT",
+    MOVE_TOP: "MOVE_TOP",
+    MOVE_BOTTOM: "MOVE_BOTTOM",
+
+    LOOK_LEFT: "LOOK_LEFT",
+    LOOK_RIGHT: "LOOK_RIGHT",
+    LOOK_TOP: "LOOK_TOP",
+    LOOK_BOTTOM: "LOOK_BOTTOM",
+
+    FIRE: "FIRE"
+};
+
+export const ORIENTATIONS = {
+    LEFT: "LEFT",
+    RIGHT: "RIGHT",
+    TOP: "TOP",
+    BOTTOM: "BOTTOM"
+};

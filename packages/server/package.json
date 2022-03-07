@@ -1,0 +1,12 @@
+{
+  "name": "labyrinth-server",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "^4.15.2",
+    "ejs": "^2.5.5",
+    "body-parser": "^1.15.2",
+    "eval": "^0.1.2",
+    "lokijs": "^1.5.12",
+    "socket.io": "^4.4.1"
+  }
+}
