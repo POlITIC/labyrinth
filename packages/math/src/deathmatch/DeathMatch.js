@@ -17,6 +17,8 @@ export default class DeathMatch {
 		const moveConfigs = this.calculateBotConfigs();
 
 		this.bots.forEach((bot, index) => {
+			// TODO try-catch this maybe?
+			// TODO use node vm to isolate untrusted code.
 			bot.makeAMove(moveConfigs[index]);
 			// result of the config should be 2 actions in an order in an array
 		});
@@ -25,7 +27,7 @@ export default class DeathMatch {
 	calculateBotConfigs () {
 		return this.bots.map(bot => {
 			const position = bot.position;
-			const surround = this.labyrinth.getPositionSurround(position);
+			const surround = this.labyrinth.getPositionSurround(position); // TODO ARRAY????
 			const orientation = bot.orientation;
 			const enemyInView = this.getEnemyInView(bot);
 
@@ -50,7 +52,7 @@ export default class DeathMatch {
 		};
 
 		const isBotInPosition = ({left, top}) => {
-			return this.bots.some(({position}) => position.left === left && position.top === top);
+			return this.bots.some(({position}) => position.left === left && position.top === top && !bot.isDead);
 		};
 
 		let isWall = false;
@@ -70,6 +72,7 @@ export default class DeathMatch {
 
 	}
 
+	// TODO should return all new Bots stats.
 	tick () {
 		this.makeBotMoves();
 		this.processMoves();

@@ -14,15 +14,12 @@ const createUser = (data) => {
 };
 
 const getOrCreateUser = (data) => {
-    console.log("USER LOGIN DATA", data);
-
     let user = getUser(data);
 
     if(!user){
         user = createUser(data);
     }
 
-    console.log("result user", user);
     return user;
 };
 

@@ -1,4 +1,4 @@
-import {ORIENTATIONS} from "./Constants";
+import {ACTIONS, ORIENTATIONS} from "./Constants";
 
 export default class Bot {
 
@@ -35,7 +35,7 @@ export default class Bot {
 		this.id = config.id;
 		this.position = {left: 2, top: 2};
 		this.orientation = ORIENTATIONS.RIGHT;
-		this.dead = false;
+		this.isDead = false;
 		this.currentMove = null;
 
 		this.createBotCode(config.code);
@@ -61,13 +61,42 @@ export default class Bot {
 		this.position = position;
 	}
 
+	filterMove(move) {
+		if(Array.isArray(move)){
+			// accounts only 2 first moves
+			// TODO should notify user that move is not or not fully compliant
+			move = move.slice(0, 1);
+		}else if(typeof move === "string"){
+			// wraps into array if single string
+			move = [move];
+		} else {
+			return [];
+		}
+
+		const posActions = [ACTIONS.MOVE_LEFT, ACTIONS.MOVE_RIGHT, ACTIONS.MOVE_BOTTOM, ACTIONS.MOVE_TOP];
+		let amountOfPosActions = 0;
+		move.forEach(mv => {
+			if(posActions.includes(mv)){
+				amountOfPosActions++;
+			}
+		});
+
+		if(amountOfPosActions >= 2){
+			// TODO should notify user that move is not or not fully compliant
+			move = [move[0]];
+		}
+
+		// other filters:  no moves through walls, no moves through people(?)
+		//
+	}
+
 	/**
 	 *
 	 * @param {MoveConfig} config
 	 * @return {Array}
 	 */
 	makeAMove(config) {
-		return this.currentMove = this.moveCallback(config);
+		const move = this.moveCallback(config);
 	}
 
 }

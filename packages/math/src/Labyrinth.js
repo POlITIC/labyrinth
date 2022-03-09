@@ -39,7 +39,7 @@ export default class Labyrinth {
 		const right = this.config[pos.top][pos.left + 1];
 		const bottom = this.config[pos.top + 1] ? this.config[pos.top + 1][pos.left] : 1;
 
-		return {left, top, right, bottom};
+		return {left, top, right, bottom}; // TODO ARRAY?????
     }
 
 	/**

@@ -15,7 +15,7 @@ setupSocket(http);
 
 app.use((req, res, next) => {
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Origin', process.env.CLIENT_DOMAIN);
 
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -53,7 +53,7 @@ app.post("/labyrinth", function (req, res) {
 app.post("/submit", function (req, res) {
     console.log("POST", req.body);
     // playerManager.createPlayer(req.body.code, req.body.name);
-    res.send({action:"submission"});
+    res.send({action: "submission"});
 });
 
 app.post("/update", function (req, res) {
@@ -63,7 +63,7 @@ app.post("/update", function (req, res) {
 
     var playerPoss = playerManager.getPlayerPositions();
     res.send({
-        action:"update",
+        action: "update",
         players: playerPoss
     });
 });
@@ -74,10 +74,10 @@ app.set("view engine", "ejs");
 
 app.use(express.static(path.join(__dirname, "../client")));
 
-http.listen(port, function(err){
-    if(err){
+http.listen(port, function (err) {
+    if (err) {
         console.log("SMTH BAD HAPPENED");
-    }else{
+    } else {
         console.log("LISTENING", port);
     }
 });
