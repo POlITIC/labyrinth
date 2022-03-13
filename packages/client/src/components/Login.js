@@ -19,7 +19,7 @@ class Login extends React.Component {
 
 	loginCall() {
 		login(this.state.nameValue).then((response) => {
-			store.dispatch(loginAction(this.state.nameValue));
+			store.dispatch(loginAction(response));
 		});
 	}
 

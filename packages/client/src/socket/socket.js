@@ -1,7 +1,12 @@
 import { io } from "socket.io-client";
+import store from "../store/store";
 
 export const initSocket = () => {
-    const socket = io("http://localhost:4040"); // TODO should be the same domain
+    const socket = io("http://localhost:4040", {
+        query: {
+            sessId: store.getState().loginData.sessId
+        }
+    }); // TODO should be the same domain
 
     socket.on("connect", () => {
         console.log(socket.id); // x8WIv7-mJelg7on_ALbx

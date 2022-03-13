@@ -12,14 +12,14 @@ import {updateCode} from "../store/actionCreators/ActionCreator";
 import store from "../store/store";
 
 
-const mapStateToProps = ({loginData, code}) => {
+const mapStateToProps = ({code}) => {
 	return {
-		userName: loginData.name,
 		code
 	};
 };
 
 const fileInputID = "fileInput";
+const botNameInputID = "botNameInput";
 
 class CodeInput extends React.Component {
 
@@ -27,7 +27,8 @@ class CodeInput extends React.Component {
 		super(props);
 
 		this.state = {
-			submitDisabled: false
+			submitDisabled: false,
+			botName: "bot"
 		};
 
 		this.updateCode = this.updateCode.bind(this);
@@ -40,6 +41,12 @@ class CodeInput extends React.Component {
 		store.dispatch(updateCode(newCode));
 	}
 
+	updateBotName(event) {
+		this.setState(Object.assign({}, this.state, {
+			botName: event.target.value
+		}));
+	}
+
 	setSubmitDisabled(disabled) {
 		this.setState(Object.assign({}, this.state, {
 			submitDisabled: disabled
@@ -49,7 +56,7 @@ class CodeInput extends React.Component {
 	submit() {
 		this.setSubmitDisabled(true);
 
-		submitCode(this.props.userName, this.props.code)
+		submitCode(this.state.botName, this.props.code)
 			.finally(() => {
 				this.setSubmitDisabled(false);
 			});
@@ -90,6 +97,17 @@ class CodeInput extends React.Component {
 	render() {
 		return (
 			<div>
+				Bot Name:
+				<input
+					accept="text/javascript"
+					style={{
+						margin: "10px"
+					}}
+					id={botNameInputID}
+					type="text"
+					onChange={this.updateBotName.bind(this)}
+					value={this.state.botName}
+				/>
 				<CodeMirror
 					value={this.props.code}
 					onChange={this.updateCode.bind(this)}

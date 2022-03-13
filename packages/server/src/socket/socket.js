@@ -1,4 +1,5 @@
 const { Server } = require("socket.io");
+const {getUserById} = require("../user/User");
 let io;
 
 const setupSocket = (http) => {
@@ -12,10 +13,12 @@ const setupSocket = (http) => {
     });
 
     io.on("connection", (socket) => {
-        // ...
-        console.log("Connection connected");
+        const sessID = socket.handshake.query.sessId;
+
+        getUserById(sessID).setSocket(socket);
     });
 };
+
 
 module.exports = {
     setupSocket

@@ -1,6 +1,6 @@
 var Player = require("./Player"),
-    Global = require("./Global"),
-    labyrinth = require("./labyrinth"),
+    Global = require("../Global"),
+    labyrinth = require("../labyrinth"),
     actionTypes = {
         move: ["left", "right", "up", "down"],
         assault: ["fire"],

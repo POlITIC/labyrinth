@@ -1,9 +1,9 @@
 import {actions} from "../enums";
 
-export const loginAction =  (name) => {
+export const loginAction =  (response) => {
 	return {
 		type: actions.LOGIN_ACTION,
-		value: {name}
+		value: response
 	};
 }
 
@@ -27,3 +27,17 @@ export const updateCode = (codeString) => {
 		value:  codeString
 	};
 }
+
+export const setBots = (bots) => {
+	return {
+		type: actions.SET_BOTS,
+		value: bots
+	};
+}
+
+export const setCurrentBot = (botName) => {
+	return {
+		type: actions.SET_CURRENT_BOT,
+		value: botName
+	};
+};

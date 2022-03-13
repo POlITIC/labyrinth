@@ -1,5 +1,5 @@
-var G = require("./Global"),
-    labyrinth = require("./labyrinth");
+var G = require("../Global"),
+    labyrinth = require("../labyrinth");
 
 function Player(conf) {
     this.init(conf);

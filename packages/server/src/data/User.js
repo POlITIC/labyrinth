@@ -1,5 +1,6 @@
 const db = require("./db");
 const {COLLECTION_USERS_NAME} = require("./constants");
+const {getOrCreateUser} = require("../user/User");
 
 const getUser = (data) => {
     const users = db.getCollection(COLLECTION_USERS_NAME);
@@ -13,15 +14,12 @@ const createUser = (data) => {
     return users.insert({...data, created: Date.now()});
 };
 
-const getOrCreateUser = (data) => {
+const loginUser = (data) => {
     let user = getUser(data);
 
-    if(!user){
-        user = createUser(data);
-    }
-
-    return user;
+    // TODO maybe worth to do this in user/User.js
+    return getOrCreateUser(user ? user : createUser(data));
 };
 
 
-module.exports = {getOrCreateUser};
+module.exports = {loginUser};
