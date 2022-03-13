@@ -24,7 +24,7 @@ class BotChooser extends Component {
 
     getBotItem(botName) {
         return this.props.match
-            ? <Checkbox value={botName}/>
+            ? <Checkbox value={botName} onChange={this.props.onCheck}/>
             : <Radio value={botName}/>;
     }
 

@@ -4,7 +4,9 @@ export const actions = {
 	SET_STAGE: "setStage",
 	UPDATE_CODE: "updateCode",
 	SET_BOTS: "setBots",
-	SET_CURRENT_BOT: "setCurrentBot"
+	SET_CURRENT_BOT: "setCurrentBot",
+	ADD_BOT_TO_MATCH: "addBotToMatch",
+	REMOVE_BOT_FROM_MATCH: "addBotFromMatch"
 };
 
 export const stages = {

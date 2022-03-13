@@ -41,3 +41,17 @@ export const setCurrentBot = (botName) => {
 		value: botName
 	};
 };
+
+export const addBotToMatch = (botName) => {
+	return {
+		type: actions.ADD_BOT_TO_MATCH,
+		value: botName
+	};
+};
+
+export const removeBotFromMatch = (botName) => {
+	return {
+		type: actions.REMOVE_BOT_FROM_MATCH,
+		value: botName
+	};
+};

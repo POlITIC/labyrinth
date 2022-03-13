@@ -55,15 +55,10 @@ app.post("/login", function (req, res) {
 });
 
 app.post("/labyrinth", function (req, res) {
-    var labConf = labyrinth.getCurrentConfig(),
-        playerPoss = playerManager.getPlayerPositions();
-
-    labyrinth.setLevel(req.body.id);
+    var labConf = labyrinth.getCurrentConfig();
 
     res.send({
-        labyrinth: labConf,
-        players: playerPoss,
-        action: "init"
+        labyrinth: labConf
     });
 });
 
@@ -85,13 +80,22 @@ app.post("/getBots", (req, res) => {
     res.send(getUserBots(getUserById(sessId).model.$loki));
 });
 
-app.post("/update", function (req, res) {
-    playerManager.makeMove();
-    var playerPoss = playerManager.getPlayerPositions();
-    res.send({
-        action: "update",
-        players: playerPoss
-    });
+app.post("/startMatch", function (req, res) {
+    const {sessId, bots} = req.body;
+    const user = getUserById(sessId);
+
+    user.startMatch(bots);
+
+    res.send({action: "matchStarted"});
+});
+
+app.post("/stopMatch", function (req, res) {
+    const {sessId} = req.body;
+    const user = getUserById(sessId);
+
+    user.stop();
+
+    res.send({action: "matchStarted"});
 });
 
 app.set("views", "../client");

@@ -70,3 +70,13 @@ export const submitCode = (botName, code) => {
         code
     }, "/saveBotCode");
 };
+
+export const startMatch = () => {
+    return post({
+        bots: store.getState().botsSelectedToMatch
+    }, "/startMatch");
+};
+
+export const stopMatch = () => {
+    return post({}, "/stopMatch");
+}

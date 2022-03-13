@@ -1,6 +1,6 @@
-import {ACTIONS, ORIENTATIONS} from "./Constants";
+const {ACTIONS, ORIENTATIONS} = require("./Constants");
 
-export default class Bot {
+module.exports = class Bot {
 
 	/**
 	 * @typedef {Object} Position Current position in labyrinth.
@@ -28,11 +28,11 @@ export default class Bot {
 	/**
 	 *
 	 * @param {object} config
-	 * @param {string} config.id
+	 * @param {string} config.botName
 	 * @param {string} config.code
 	 */
 	constructor(config) {
-		this.id = config.id;
+		this.id = config.botName;
 		this.position = {left: 2, top: 2};
 		this.orientation = ORIENTATIONS.RIGHT;
 		this.isDead = false;
@@ -96,7 +96,15 @@ export default class Bot {
 	 * @return {Array}
 	 */
 	makeAMove(config) {
-		const move = this.moveCallback(config);
+		this.currentMove = this.moveCallback(config);
 	}
 
+	getStats() {
+		return {
+			i: this.id,
+			p: this.position,
+			o: this.orientation,
+			d: this.isDead
+		}
+	}
 }

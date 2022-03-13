@@ -1,14 +1,27 @@
 import { io } from "socket.io-client";
 import store from "../store/store";
 
-export const initSocket = () => {
-    const socket = io("http://localhost:4040", {
-        query: {
-            sessId: store.getState().loginData.sessId
-        }
-    }); // TODO should be the same domain
+let socket = null;
 
-    socket.on("connect", () => {
-        console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+export const initSocket = () => {
+    return new Promise ((resolve, reject) => {
+        socket = io("http://localhost:4040", {
+            query: {
+                sessId: store.getState().loginData.sessId
+            }
+        }); // TODO should be the same domain
+
+        socket.on("connect", () => {
+            console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+            resolve();
+        });
     });
+};
+
+export const getSocket = () => {
+    if(!socket){
+        throw new Error("Socket is not ready yet!!!");
+    }
+
+    return socket;
 };

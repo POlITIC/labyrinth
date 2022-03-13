@@ -14,8 +14,11 @@ const setupSocket = (http) => {
 
     io.on("connection", (socket) => {
         const sessID = socket.handshake.query.sessId;
+        const user = getUserById(sessID);
 
-        getUserById(sessID).setSocket(socket);
+        if(user){
+            user.setSocket(socket);
+        }
     });
 };
 

@@ -1,4 +1,4 @@
-export const ACTIONS = {
+const ACTIONS = {
     MOVE_LEFT: "MOVE_LEFT",
     MOVE_RIGHT: "MOVE_RIGHT",
     MOVE_TOP: "MOVE_TOP",
@@ -12,9 +12,13 @@ export const ACTIONS = {
     FIRE: "FIRE"
 };
 
-export const ORIENTATIONS = {
+const ORIENTATIONS = {
     LEFT: "LEFT",
     RIGHT: "RIGHT",
     TOP: "TOP",
     BOTTOM: "BOTTOM"
 };
+
+module.exports = {
+    ACTIONS, ORIENTATIONS
+}

@@ -1,4 +1,4 @@
-export default class Labyrinth {
+module.exports = class Labyrinth {
     /**
      * @typedef {Object} LabyrinthConfig
      * @property {Array<Array<number>>} rows

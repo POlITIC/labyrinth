@@ -7,6 +7,8 @@ import LabyrinthField from "./LabyrinthField";
 import {stages} from "../store/enums";
 import store from "../store/store";
 import {setStage} from "../store/actionCreators/ActionCreator";
+import {initSocket} from "../socket/socket";
+import PixiApp from "../pixi/PixiApp";
 
 const mapStateToProps = ({loginData, stage}) => {
 	return {
@@ -16,6 +18,11 @@ const mapStateToProps = ({loginData, stage}) => {
 };
 
 class MainPage extends React.Component {
+
+	async componentDidMount() {
+		await initSocket();
+		PixiApp.subscribeSocket();
+	}
 
 	getStage() {
 		const stageName = this.props.stage;

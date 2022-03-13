@@ -3,11 +3,13 @@ import PixiApp from "../pixi/PixiApp";
 
 import store from "../store/store";
 import React from 'react';
-import {Button, Checkbox, Grid, List, ListItem} from "@material-ui/core";
-import {getAllBots, getLabyrinth} from "../ServerAPI";
-import {showLabAction} from "../store/actionCreators/ActionCreator";
+import {Button, Grid} from "@material-ui/core";
+import {getLabyrinth, startMatch, stopMatch} from "../ServerAPI";
+import {
+    addBotToMatch, removeBotFromMatch,
+    showLabAction
+} from "../store/actionCreators/ActionCreator";
 import {connect} from "react-redux";
-import {initSocket} from "../socket/socket";
 import BotChooser from "./BotChooser";
 
 const APP_CONTAINER_ID = "pixiAppContainer";
@@ -16,12 +18,7 @@ const mapStateToProps = () => {
     return {};
 };
 
-
 class LabyrinthField extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
 
     async componentDidMount() {
         const appContainer = document.getElementById(APP_CONTAINER_ID);
@@ -31,27 +28,41 @@ class LabyrinthField extends React.Component {
         }
     }
 
-    async getLabyrinth() {
+    async startMatch() {
         await getLabyrinth(0)
-            .then((response) => {
+            .then(async (response) => {
                 const config = response.labyrinth;
                 if (config) {
                     PixiApp.showLabyrinth(config);
                     store.dispatch(showLabAction(config));
-                    initSocket();
+                    await startMatch();
+                    PixiApp.startMatch();
                 }
             });
+    }
+
+    async stopMatch() {
+        await stopMatch();
+    }
+
+    onBotCheck(event) {
+        if(event.target.checked){
+            store.dispatch(addBotToMatch(event.target.value));
+        }else {
+            store.dispatch(removeBotFromMatch(event.target.value));
+        }
     }
 
     render() {
         return (
             <Grid container className="App">
-
-                <BotChooser match/>
+                <BotChooser match onCheck={this.onBotCheck.bind(this)}/>
 
                 <Grid item>
                     <Button variant="contained" color="primary" label="getLab"
-                            onClick={this.getLabyrinth.bind(this)}>Start</Button>
+                            onClick={this.startMatch.bind(this)}>Start</Button>
+                    <Button variant="contained" color="primary" label="getLab"
+                            onClick={this.stopMatch.bind(this)}>Stop</Button>
                     <div id={APP_CONTAINER_ID}></div>
                 </Grid>
 

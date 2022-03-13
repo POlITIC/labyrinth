@@ -1,12 +1,10 @@
-import DeathMatch from "./deathmatch/DeathMatch";
+const DeathMatch = require("./deathmatch/DeathMatch");
 
-let game;
-export const setupGame = (labyrinthConf, botConfigs) => {
-    game = new DeathMatch(labyrinthConf, botConfigs);
-
-    window.game = game;
+const setupGame = (labyrinthConf, botConfigs) => {
+    return new DeathMatch(labyrinthConf, botConfigs);
 };
 
-export const tick = () => {
-    game.tick();
-};
+
+module.exports = {
+    setupGame
+}

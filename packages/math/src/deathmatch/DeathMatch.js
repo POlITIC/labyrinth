@@ -1,8 +1,8 @@
-import Labyrinth from "../Labyrinth";
-import Bot from "../Bot";
-import {ORIENTATIONS} from "../Constants";
+const Labyrinth = require("../Labyrinth");
+const Bot = require("../Bot");
+const {ORIENTATIONS} =  require("../Constants");
 
-export default class DeathMatch {
+module.exports = class DeathMatch {
 	constructor(labyrinthConfig, botConfigs) {
 		this.labyrinth = new Labyrinth(labyrinthConfig);
 
@@ -69,12 +69,13 @@ export default class DeathMatch {
 	}
 
 	processMoves () {
-
+		// TODO process result of moves.
 	}
 
-	// TODO should return all new Bots stats.
 	tick () {
 		this.makeBotMoves();
 		this.processMoves();
+
+		return this.bots.map(bot => bot.getStats());
 	}
 }
