@@ -88,7 +88,7 @@ function main() {
         //increase weight
         attendMapPoint(pos[0], pos[1]);
 
-        //up direction
+        //up orientation
         if(sensors[0] == 1){
             setWall(pos[0], pos[1]-1);
         }else{
@@ -309,8 +309,8 @@ function main() {
             return "up"
         }
     }
-    
-    
+
+
     function findMinWeightedPosition(map) {
         var x, y,
             minWeight = 1000000,
@@ -410,7 +410,7 @@ function main() {
         }
     }
 
-    
+
     function prepareRotation(rollBackPos, targetPos, newDirName, newDirVec){
         savedData.rotationData = {
             rollBackPos : rollBackPos,
@@ -429,7 +429,7 @@ function main() {
         savedData.lookOutCounter = 0;
         return "direction_" + savedData.rotationData.newDirName;
     }
-    
+
     function performAfterRotation(targetPos) {
         return getMoveNameToPos(targetPos);
     }

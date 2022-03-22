@@ -12,7 +12,7 @@ export const initSocket = () => {
         }); // TODO should be the same domain
 
         socket.on("connect", () => {
-            console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+            console.log(socket.id);
             resolve();
         });
     });

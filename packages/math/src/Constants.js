@@ -1,13 +1,13 @@
 const ACTIONS = {
     MOVE_LEFT: "MOVE_LEFT",
     MOVE_RIGHT: "MOVE_RIGHT",
-    MOVE_TOP: "MOVE_TOP",
-    MOVE_BOTTOM: "MOVE_BOTTOM",
+    MOVE_UP: "MOVE_UP",
+    MOVE_DOWN: "MOVE_DOWN",
 
     LOOK_LEFT: "LOOK_LEFT",
     LOOK_RIGHT: "LOOK_RIGHT",
-    LOOK_TOP: "LOOK_TOP",
-    LOOK_BOTTOM: "LOOK_BOTTOM",
+    LOOK_UP: "LOOK_UP",
+    LOOK_DOWN: "LOOK_DOWN",
 
     FIRE: "FIRE"
 };
@@ -15,8 +15,8 @@ const ACTIONS = {
 const ORIENTATIONS = {
     LEFT: "LEFT",
     RIGHT: "RIGHT",
-    TOP: "TOP",
-    BOTTOM: "BOTTOM"
+    UP: "UP",
+    DOWN: "DOWN"
 };
 
 module.exports = {

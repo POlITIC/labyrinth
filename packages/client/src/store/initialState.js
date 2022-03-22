@@ -6,7 +6,7 @@ export default {
 	},
 	labConfig: null,
 	stage: null,
-	code: "return [['move_left', 'move_up', 'move_right', 'move_down'][Math.floor(Math.random() * 4)]];",
+	code: "return [['MOVE_LEFT', 'MOVE_UP', 'MOVE_RIGHT', 'MOVE_DOWN'][Math.floor(Math.random() * 4)]];",
 	bots: [],
 	currentBot: null,
 	botsSelectedToMatch: []
