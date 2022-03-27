@@ -8,6 +8,7 @@ export default class PixiPlayer {
 	 * @param {number} config.width
 	 * @param {number} config.height
 	 * @param {string} config.name
+	 * @param {string} config.color
 	 */
 	constructor(config) {
 
@@ -16,6 +17,8 @@ export default class PixiPlayer {
 		this.health = config.maxHP;
 		this.width = config.width;
 		this.height = config.height;
+
+		this.color = config.color;
 
 		this.dead = false;
 
@@ -33,7 +36,8 @@ export default class PixiPlayer {
 
 		body.clear();
 
-		body.beginFill(0x0000ff, 1);
+		body.beginFill(this.color, 1);
+		body.lineStyle(1, 0xaa0000);
 		// body.drawRect(-this.width/ 2, -this.height / 2, this.width, this.height);
 		body.drawRect(0, 0, this.width, this.height);
 		body.endFill();
@@ -55,7 +59,6 @@ export default class PixiPlayer {
 	}
 
 	moveTo (left, top) {
-		// TODO need to position it relative to labyrinth
 		this.container.position.set(left * this.width, top * this.height);
 	}
 
@@ -71,5 +74,9 @@ export default class PixiPlayer {
 	die () {
 		this.container.tint = 0x000000;
 		this.dead = true
+	}
+
+	destroy() {
+		this.container.destroy({children: true});
 	}
 }

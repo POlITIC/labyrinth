@@ -48,7 +48,7 @@ export default class PixiLabyrinth {
 
 		this.gfx.clear();
 
-		this.gfx.beginFill(0xf00000, 1);
+		this.gfx.beginFill(0x666666, 1);
 		this.config.forEach((row, rowIndex) => {
 			row.forEach((isWall, wallIndex) => {
 
@@ -61,5 +61,9 @@ export default class PixiLabyrinth {
 		});
 
 		this.gfx.endFill();
+	}
+
+	destroy(){
+		this.container.destroy({children: true});
 	}
 }

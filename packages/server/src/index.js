@@ -84,9 +84,9 @@ app.post("/startMatch", function (req, res) {
     const {sessId, bots} = req.body;
     const user = getUserById(sessId);
 
-    user.startMatch(bots);
+    const botConfigs = user.startMatch(bots);
 
-    res.send({action: "matchStarted"});
+    res.send({action: "matchStarted", botConfigs});
 });
 
 app.post("/stopMatch", function (req, res) {

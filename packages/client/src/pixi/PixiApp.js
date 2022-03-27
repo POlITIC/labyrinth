@@ -2,6 +2,7 @@ import * as PIXI from "pixi.js";
 import PixiLabyrinth from "./PixiLabyrinth";
 import PixiPlayer from "./PixiPlayer";
 import {getSocket} from "../socket/socket";
+import {createRandomColor} from "./utils";
 
 const DEFAULT_PARAMS = {
     width: 300,
@@ -11,6 +12,12 @@ const DEFAULT_PARAMS = {
 class PixiApp {
     constructor() {
         this.init();
+
+        this.started = false;
+        this.players = {};
+
+        // TODO remove
+        window.PAPP = this;
     }
 
     init() {
@@ -21,7 +28,7 @@ class PixiApp {
         this.app = new PIXI.Application({
             width: DEFAULT_PARAMS.width,
             height: DEFAULT_PARAMS.height,
-            backgroundColor: 0x1099bb,
+            backgroundColor: 0xbbbbbb,
             resolution: window.devicePixelRatio || 1
         });
 
@@ -43,32 +50,81 @@ class PixiApp {
         });
         this.app.stage.addChild(this.labyrinth.container);
         this.labyrinth.render();
-
-        //TODO need a player for each bot
-        this.player = new PixiPlayer({
-            name: "vasa",
-            maxHP: 100,
-            ...this.labyrinth.calculateWalSize()
-        });
-        this.app.stage.addChild(this.player.container);
-        this.player.moveTo(2, 2);
-
-
     }
 
     subscribeSocket() {
         const socket = getSocket();
 
         socket.on("gameTick", (stats) => {
-            console.log("stats", stats.length);
             console.log(stats.map(s => {
                 return `${s.i}:${JSON.stringify(s.p)}:${s.d}`;
             }).join("\n"));
+
+            this.updateBots(stats);
         });
     }
 
-    startMatch() {
-        // MAtchStarts
+    /**
+     *
+     * @param {Array<object>} configs
+     */
+    createBots(configs) {
+        configs.forEach((botConfig) => {
+            const color = createRandomColor();
+            const bot = new PixiPlayer({
+                color,
+                name: botConfig.id,
+                maxHP: 100,
+                ...this.labyrinth.calculateWalSize()
+            });
+
+            const {left, top} = botConfig.position;
+
+            bot.moveTo(left, top);
+            this.app.stage.addChild(bot.container);
+
+            this.players[botConfig.id] = bot;
+        });
+
+        console.error("BOTS CREATED");
+    }
+
+    updateBots(configs) {
+        if (!this.started) {
+            return;
+        }
+
+        configs.forEach(botConfig => {
+            const bot = this.players[botConfig.i];
+
+            const {left, top} = botConfig.p;
+
+            bot.moveTo(left, top);
+        });
+    }
+
+    clearField() {
+        const playersArray = Object.values(this.players)
+
+        if (playersArray.length > 0) {
+            playersArray.forEach(bot => bot.destroy());
+            this.players = {};
+        }
+
+        if (this.labyrinth) {
+            this.labyrinth.destroy();
+        }
+    }
+
+    startMatch(labyrinthConfig, botConfigs) {
+        this.clearField();
+        this.showLabyrinth(labyrinthConfig)
+        this.createBots(botConfigs);
+        this.started = true;
+    }
+
+    stopMatch() {
+        this.started = false;
     }
 }
 

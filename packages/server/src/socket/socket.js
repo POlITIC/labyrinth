@@ -19,6 +19,10 @@ const setupSocket = (http) => {
         if(user){
             user.setSocket(socket);
         }
+
+        socket.on("disconnect", (reason) => {
+            user.stop();
+        });
     });
 };
 

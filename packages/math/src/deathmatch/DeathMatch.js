@@ -155,4 +155,8 @@ module.exports = class DeathMatch {
 
         return this.bots.map(bot => bot.getStats());
     }
+
+    getBots () {
+        return this.bots;
+    }
 }

@@ -33,16 +33,18 @@ class LabyrinthField extends React.Component {
             .then(async (response) => {
                 const config = response.labyrinth;
                 if (config) {
-                    PixiApp.showLabyrinth(config);
+                    const startResp = await startMatch();
+
+                    PixiApp.startMatch(config, startResp.botConfigs);
+
                     store.dispatch(showLabAction(config));
-                    await startMatch();
-                    PixiApp.startMatch();
                 }
             });
     }
 
     async stopMatch() {
         await stopMatch();
+        PixiApp.stopMatch();
     }
 
     onBotCheck(event) {

@@ -3,7 +3,7 @@ const {getUserBots} = require("../data/Bot");
 const labyrinth = require("../labyrinth");
 const usersSess = {};
 const usersModelId = {};
-const DEFAULT_FRAME_TIME = 1000;
+const DEFAULT_FRAME_TIME = 300;
 
 class User {
     constructor(model) {
@@ -13,6 +13,7 @@ class User {
         this.socket = null;
         this.game = null;
         this.playing = false;
+        this.matchTimeout = null;
 
         usersSess[this.sessId] = this;
         usersModelId[this.model.$loki] = this;
@@ -31,6 +32,8 @@ class User {
         this.game = setupGame(labyrinth.getCurrentConfig(), botConfigs);
         this.playing = true;
         this.play();
+
+        return this.game.getBots();
     }
 
     play() {
@@ -43,7 +46,7 @@ class User {
 
             this.socket.emit("gameTick", stats);
 
-            setTimeout(() => {
+            this.matchTimeout = setTimeout(() => {
                 this.play();
             }, DEFAULT_FRAME_TIME);
         }
@@ -51,6 +54,10 @@ class User {
 
     stop() {
         this.playing = false;
+
+        if(this.matchTimeout){
+            clearTimeout(this.matchTimeout);
+        }
     }
 
     destroy() {
