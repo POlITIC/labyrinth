@@ -14,7 +14,8 @@ export default function reducer(state, {type, value}) {
 		case actions.SHOW_LAB_ACTION: state.labConfig = labyrinthReducer(value, state); break;
 		case actions.SET_STAGE: state.stage = stageReducer(value, state); break;
 		case actions.UPDATE_CODE: state.code = codeReducer(value, state); break;
-		case actions.SET_BOTS: state.bots = setBotsReducer(value, state); break;
+		case actions.SET_BOTS:state.bots = setBotsReducer(value, state);break;
+		case actions.CLEAR_BOTS_MATCH: state.botsSelectedToMatch = []; break;
 		case actions.SET_CURRENT_BOT: state.currentBot = setCurrentBotReducer(value, state); break;
 		case actions.ADD_BOT_TO_MATCH: state.botsSelectedToMatch = addBotToMatchReducer(value, state); break;
 		case actions.REMOVE_BOT_FROM_MATCH: state.botsSelectedToMatch = removeBotFromMatchReducer(value, state); break;

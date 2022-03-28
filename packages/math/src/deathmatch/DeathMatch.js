@@ -151,7 +151,7 @@ module.exports = class DeathMatch {
 
         this.makeBotMoves();
 
-        console.log(this.bots.map(bot => `${bot.id}[${bot.currentMove.join(",")}]`));
+        // console.log(this.bots.map(bot => `${bot.id}[${bot.currentMove.join(",")}]`));
 
         this.processMoves();
 

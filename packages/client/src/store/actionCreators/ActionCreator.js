@@ -35,6 +35,10 @@ export const setBots = (bots) => {
 	};
 }
 
+export const clearBotsMatch = () => ({
+	type: actions.CLEAR_BOTS_MATCH
+});
+
 export const setCurrentBot = (botName) => {
 	return {
 		type: actions.SET_CURRENT_BOT,

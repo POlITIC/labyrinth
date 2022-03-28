@@ -6,7 +6,8 @@ export const actions = {
 	SET_BOTS: "setBots",
 	SET_CURRENT_BOT: "setCurrentBot",
 	ADD_BOT_TO_MATCH: "addBotToMatch",
-	REMOVE_BOT_FROM_MATCH: "addBotFromMatch"
+	REMOVE_BOT_FROM_MATCH: "addBotFromMatch",
+	CLEAR_BOTS_MATCH: "clearBotsMatch"
 };
 
 export const stages = {

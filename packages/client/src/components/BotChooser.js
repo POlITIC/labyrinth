@@ -9,7 +9,11 @@ import {
     RadioGroup
 } from "@material-ui/core";
 import {getAllBots} from "../ServerAPI";
-import {setBots, setCurrentBot} from "../store/actionCreators/ActionCreator";
+import {
+    clearBotsMatch,
+    setBots,
+    setCurrentBot
+} from "../store/actionCreators/ActionCreator";
 import store from "../store/store";
 
 const mapStateToProps = ({bots, currentBot}) => ({bots, currentBot});
@@ -18,8 +22,8 @@ class BotChooser extends Component {
 
     async componentDidMount() {
         const bots = await getAllBots();
-        // TODO bots should be saved to store
         store.dispatch(setBots(bots));
+        store.dispatch(clearBotsMatch());
     }
 
     getBotItem(botName) {
