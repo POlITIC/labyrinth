@@ -56,9 +56,9 @@ class PixiApp {
         const socket = getSocket();
 
         socket.on("gameTick", (stats) => {
-            console.log(stats.map(s => {
-                return `${s.i}:${JSON.stringify(s.p)}:${s.d}`;
-            }).join("\n"));
+            console.log("%c" + stats.map(s => {
+                return `${s.i}:${JSON.stringify(s.p)}:${s.o}:${s.d}`;
+            }).join("\n"), `background: #${stats.some(s=>s.d)?"ffffff":"111111"}`);
 
             this.updateBots(stats);
         });
@@ -70,10 +70,12 @@ class PixiApp {
      */
     createBots(configs) {
         configs.forEach((botConfig) => {
+            console.error("BOT CONF", botConfig);
             const color = createRandomColor();
             const bot = new PixiPlayer({
                 color,
                 name: botConfig.id,
+                direction: botConfig.orientation,
                 maxHP: 100,
                 ...this.labyrinth.calculateWalSize()
             });
@@ -97,9 +99,7 @@ class PixiApp {
         configs.forEach(botConfig => {
             const bot = this.players[botConfig.i];
 
-            const {left, top} = botConfig.p;
-
-            bot.moveTo(left, top);
+            bot.update(botConfig);
         });
     }
 

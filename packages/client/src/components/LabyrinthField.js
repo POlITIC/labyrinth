@@ -1,4 +1,3 @@
-// TODO this component will be taking care of pixi and canvas.
 import PixiApp from "../pixi/PixiApp";
 
 import store from "../store/store";

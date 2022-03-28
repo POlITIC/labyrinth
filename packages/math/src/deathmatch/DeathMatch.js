@@ -24,6 +24,7 @@ module.exports = class DeathMatch {
     }
 
     calculateBotConfigs() {
+        // TODO concept of saved data
         return this.bots.map(bot => {
             const position = bot.position;
             const surround = this.labyrinth.getPositionSurround(position); // TODO ARRAY????
@@ -77,6 +78,7 @@ module.exports = class DeathMatch {
     }
 
     processMoves() {
+        // TODO refactor to make is simpler
         // first action
 
         // process fire actions
