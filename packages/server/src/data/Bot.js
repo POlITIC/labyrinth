@@ -40,7 +40,7 @@ const getUserBots = (userId) => {
         userId
     });
 
-    console.log(bots);
+    // console.log(bots);
 
     return bots;
 };

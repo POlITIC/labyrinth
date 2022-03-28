@@ -69,8 +69,6 @@ app.post("/saveBotCode", function (req, res) {
 
     addOrUpdateBot(userId, botName, code);
 
-    console.log(getBot(userId, botName));
-
     res.send({action: "submission"});
 });
 

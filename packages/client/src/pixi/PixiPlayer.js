@@ -88,6 +88,7 @@ export default class PixiPlayer {
         hb.drawRect(0, 0, this.width, this.height * 0.1);
         hb.endFill();
 
+        this.healthBar = hb;
         this.container.addChild(hb);
     }
 
@@ -126,7 +127,8 @@ export default class PixiPlayer {
     }
 
     die() {
-        this.container.tint = 0x000000;
+        this.healthBar.destroy();
+        this.container.alpha = 0.1;
         this.dead = true
     }
 

@@ -5,6 +5,7 @@ const {ORIENTATIONS, ACTIONS} = require("../Constants");
 module.exports = class DeathMatch {
     constructor(labyrinthConfig, botConfigs) {
         this.labyrinth = new Labyrinth(labyrinthConfig);
+        console.error("NEW MATCH");
 
         this.createBots(botConfigs);
     }
@@ -56,19 +57,21 @@ module.exports = class DeathMatch {
     }
 
     getBotInPosition({left, top}) {
-        return this.bots.filter(({
-                                     position,
-                                     isDead
-                                 }) => position.left === left && position.top === top && !isDead)[0];
+        return this.bots.filter(({position, isDead}) =>
+            position.left === left && position.top === top && !isDead)[0];
     }
 
     getEnemyInView(bot) {
         let isWall = false;
         let pos = bot.position;
-        let victim = false;
+        let victim = null;
+
+        if (bot.id !== "hunter1") {
+            return;
+        }
 
         // find a wall in view.
-        while (!isWall) {
+        while (!isWall && !victim) {
             pos = this.getNextCellInView(pos, bot.orientation);
             victim = this.getBotInPosition(pos);
             isWall = this.labyrinth.getWall(pos);
@@ -158,7 +161,7 @@ module.exports = class DeathMatch {
         return this.bots.map(bot => bot.getStats());
     }
 
-    getBots () {
+    getBots() {
         return this.bots;
     }
 }
