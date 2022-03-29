@@ -59,3 +59,22 @@ export const removeBotFromMatch = (botName) => {
 		value: botName
 	};
 };
+
+export const setBotColor = (botName, color) => {
+	return {
+		type: actions.SET_BOT_COLOR,
+		value: {botName, color}
+	};
+};
+
+export const startMatchAction = () => {
+	return {
+		type: actions.START_MATCH
+	};
+}
+
+export const endMatchAction = () => {
+	return {
+		type: actions.END_MATCH
+	};
+}

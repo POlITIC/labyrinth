@@ -16,14 +16,14 @@ import {
 } from "../store/actionCreators/ActionCreator";
 import store from "../store/store";
 
-const mapStateToProps = ({bots, currentBot}) => ({bots, currentBot});
+const mapStateToProps = ({bots, currentBot, botsSelectedToMatch, botsMatchColors, matchStarted}) =>
+    ({bots, currentBot, botsSelectedToMatch, botsMatchColors, matchStarted});
 
-class BotChooser extends Component {
+class BotsView extends Component {
 
     async componentDidMount() {
         const bots = await getAllBots();
         store.dispatch(setBots(bots));
-        store.dispatch(clearBotsMatch());
     }
 
     getBotItem(botName) {
@@ -47,23 +47,31 @@ class BotChooser extends Component {
     }
 
     getBots() {
-        return this.props.bots.map(
-            ({botName}) => (
-                <ListItem key={botName}>
-                    {this.getBotItem(botName)} {botName}
-                </ListItem>
-            )
+        const bots = this.props.matchStarted
+            ? this.props.botsSelectedToMatch
+            : this.props.bots.map(({botName}) => botName);
+
+        return bots.map(
+            (botName) => {
+                const style = this.props.matchStarted
+                    ? {background: `#${this.props.botsMatchColors[botName]}`}
+                    : {};
+
+                return <ListItem key={botName} style={{borderStyle: "solid", ...style}}>
+                    {this.props.matchStarted ? "" : this.getBotItem(botName)} {botName}
+                </ListItem>;
+            }
         );
     }
 
     render() {
         return (
             <Grid item>
-                Choose your bot:
+                {this.props.matchStarted ? "Bots fighting:" : "Choose your bot:"}
                 { this.getBotsWrapper() }
             </Grid>
         );
     }
 }
 
-export default connect(mapStateToProps)(BotChooser);
+export default connect(mapStateToProps)(BotsView);

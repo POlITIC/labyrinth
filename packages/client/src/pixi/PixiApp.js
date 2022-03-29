@@ -3,6 +3,8 @@ import PixiLabyrinth from "./PixiLabyrinth";
 import PixiPlayer from "./PixiPlayer";
 import {getSocket} from "../socket/socket";
 import {createRandomColor} from "./utils";
+import {setBotColor} from "../store/actionCreators/ActionCreator";
+import store from "../store/store";
 
 const DEFAULT_PARAMS = {
     width: 300,
@@ -70,8 +72,10 @@ class PixiApp {
      */
     createBots(configs) {
         configs.forEach((botConfig) => {
-            console.error("BOT CONF", botConfig);
             const color = createRandomColor();
+
+            store.dispatch(setBotColor(botConfig.id, color.toString(16)));
+
             const bot = new PixiPlayer({
                 color,
                 name: botConfig.id,

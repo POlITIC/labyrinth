@@ -5,11 +5,11 @@ import React from 'react';
 import {Button, Grid} from "@material-ui/core";
 import {getLabyrinth, startMatch, stopMatch} from "../ServerAPI";
 import {
-    addBotToMatch, removeBotFromMatch,
-    showLabAction
+    addBotToMatch, clearBotsMatch, endMatchAction, removeBotFromMatch,
+    showLabAction, startMatchAction
 } from "../store/actionCreators/ActionCreator";
 import {connect} from "react-redux";
-import BotChooser from "./BotChooser";
+import BotsView from "./BotsView";
 
 const APP_CONTAINER_ID = "pixiAppContainer";
 
@@ -37,6 +37,7 @@ class LabyrinthField extends React.Component {
                     PixiApp.startMatch(config, startResp.botConfigs);
 
                     store.dispatch(showLabAction(config));
+                    store.dispatch(startMatchAction());
                 }
             });
     }
@@ -44,6 +45,8 @@ class LabyrinthField extends React.Component {
     async stopMatch() {
         await stopMatch();
         PixiApp.stopMatch();
+        store.dispatch(endMatchAction());
+        store.dispatch(clearBotsMatch());
     }
 
     onBotCheck(event) {
@@ -57,7 +60,7 @@ class LabyrinthField extends React.Component {
     render() {
         return (
             <Grid container className="App">
-                <BotChooser match onCheck={this.onBotCheck.bind(this)}/>
+                <BotsView match onCheck={this.onBotCheck.bind(this)}/>
 
                 <Grid item>
                     <Button variant="contained" color="primary" label="getLab"

@@ -9,5 +9,7 @@ export default {
 	code: "return [['MOVE_LEFT', 'MOVE_UP', 'MOVE_RIGHT', 'MOVE_DOWN'][Math.floor(Math.random() * 4)]];",
 	bots: [],
 	currentBot: null,
-	botsSelectedToMatch: []
+	botsSelectedToMatch: [],
+	botsMatchColors: {},
+	matchStarted: false
 };
