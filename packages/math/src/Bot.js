@@ -1,4 +1,6 @@
-const {ACTIONS, ORIENTATIONS} = require("./Constants");
+const {ACTIONS, ORIENTATIONS, INIT_HP, DAMAGE} = require("./Constants");
+
+let ii = 0;
 
 module.exports = class Bot {
 
@@ -34,14 +36,25 @@ module.exports = class Bot {
      */
     constructor(config, labyrinth) {
         this.id = config.botName;
-        this.position = {left: 2, top: 2};
+        this.position = {
+            left: ii % 2 > 0.5 ? 1 : 3,
+            top: 2
+        };
+
+        // TODO remove this shit
+        ii++;
+
         this.orientation = ORIENTATIONS.RIGHT;
         this.isDead = false;
         this.labyrinth = labyrinth;
 
+        this.maxHp = this.hp = INIT_HP;
+        this.dmg = DAMAGE;
+
         // to clean up
         this.currentMove = null;
         this.isFiredOrientation = null;
+        this.assailant = null;
 
         this.createBotCode(config.code);
     }
@@ -171,6 +184,7 @@ module.exports = class Bot {
     moveCleanup() {
         this.isFiredOrientation = null;
         this.currentMove = null;
+        this.assailant = null;
     }
 
 
@@ -179,7 +193,9 @@ module.exports = class Bot {
             i: this.id,
             p: this.position,
             o: this.orientation,
-            d: this.isDead
+            d: this.isDead,
+            h: this.hp,
+            mh: this.maxHp
         }
     }
 }

@@ -19,6 +19,9 @@ const ORIENTATIONS = {
     DOWN: "DOWN"
 };
 
+const INIT_HP = 100;
+const DAMAGE = 10;
+
 module.exports = {
-    ACTIONS, ORIENTATIONS
+    ACTIONS, ORIENTATIONS, INIT_HP, DAMAGE
 }

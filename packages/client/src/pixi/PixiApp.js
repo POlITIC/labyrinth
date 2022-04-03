@@ -87,7 +87,7 @@ class PixiApp {
             const {left, top} = botConfig.position;
 
             bot.moveTo(left, top);
-            this.app.stage.addChild(bot.container);
+            this.app.stage.addChild(bot);
 
             this.players[botConfig.id] = bot;
         });

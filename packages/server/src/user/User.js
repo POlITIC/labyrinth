@@ -3,7 +3,7 @@ const {getUserBots} = require("../data/Bot");
 const labyrinth = require("../labyrinth");
 const usersSess = {};
 const usersModelId = {};
-const DEFAULT_FRAME_TIME = 300;
+const DEFAULT_FRAME_TIME = 100;
 
 class User {
     constructor(model) {
@@ -46,6 +46,10 @@ class User {
 
             this.socket.emit("gameTick", stats);
 
+            if(this.game.eachLiveBot.length === 1){
+                this.stop();
+            }
+
             this.matchTimeout = setTimeout(() => {
                 this.play();
             }, DEFAULT_FRAME_TIME);
@@ -58,6 +62,7 @@ class User {
         if(this.matchTimeout){
             clearTimeout(this.matchTimeout);
         }
+        console.log("STOP MATCH");
     }
 
     destroy() {

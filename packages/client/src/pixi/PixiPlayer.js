@@ -1,7 +1,8 @@
 import * as PIXI from "pixi.js";
 import {getDirectionPoints} from "./utils";
+import {PixiHealthBar} from "./PixiHealthBar";
 
-export default class PixiPlayer {
+export default class PixiPlayer extends PIXI.Container {
     /**
      *
      * @param {Object} config
@@ -14,10 +15,12 @@ export default class PixiPlayer {
      */
     constructor(config) {
 
+        super();
+
         this.maxHP = config.maxHP;
         this.health = config.maxHP;
-        this.width = config.width;
-        this.height = config.height;
+        this.playerWidth = config.width;
+        this.playerHeight = config.height;
 
         this.name = config.name;
         this.color = config.color;
@@ -29,7 +32,6 @@ export default class PixiPlayer {
     }
 
     init() {
-        this.container = new PIXI.Container();
         this.createBody();
         this.createScopes();
         this.createHealthBar();
@@ -42,10 +44,10 @@ export default class PixiPlayer {
 
         body.beginFill(this.color, 1);
         body.lineStyle(2, 0xaa0000);
-        body.drawRect(0, 0, this.width, this.height);
+        body.drawRect(0, 0, this.playerWidth, this.playerHeight);
         body.endFill();
 
-        this.container.addChild(body);
+        this.addChild(body);
     }
 
     createScopes() {
@@ -54,7 +56,7 @@ export default class PixiPlayer {
 
         this.drawScopes();
 
-        this.container.addChild(scopes);
+        this.addChild(scopes);
     }
 
     drawScopes() {
@@ -65,7 +67,7 @@ export default class PixiPlayer {
         scopes.beginFill(0xffffff, 0.3);
         scopes.lineStyle(2, 0xaa0000);
 
-        const points = getDirectionPoints(this.width, this.height, this.direction);
+        const points = getDirectionPoints(this.playerWidth, this.playerHeight, this.direction);
 
         points.forEach((point, index) => {
             if (index === 0) {
@@ -79,17 +81,15 @@ export default class PixiPlayer {
     }
 
     createHealthBar() {
-        const hb = new PIXI.Graphics();
-
-        hb.clear();
-
-        hb.beginFill(0x00f000, 1);
-        // hb.drawRect(-this.width/ 2, -this.height / 2, this.width, this.height * 0.1);
-        hb.drawRect(0, 0, this.width, this.height * 0.1);
-        hb.endFill();
+        const hb = new PixiHealthBar({
+            width: this.playerWidth,
+            height: this.playerHeight * 0.1,
+            hp: this.health,
+            maxHp: this.maxHP
+        })
 
         this.healthBar = hb;
-        this.container.addChild(hb);
+        this.addChild(hb);
     }
 
     /**
@@ -116,23 +116,27 @@ export default class PixiPlayer {
         // direction
         this.direction = data.o;
         this.drawScopes();
+
+        this.setHealth(data);
     }
 
     moveTo(left, top) {
-        this.container.position.set(left * this.width, top * this.height);
+        this.position.set(left * this.playerWidth, top * this.playerHeight);
     }
 
-    setHealth() {
-
+    setHealth(data) {
+        this.health = data.h;
+        this.maxHP = data.mh;
+        this.healthBar.update(data.h, data.mh)
     }
 
     die() {
         this.healthBar.destroy();
-        this.container.alpha = 0.1;
+        this.alpha = 0.1;
         this.dead = true
     }
 
     destroy() {
-        this.container.destroy({children: true});
+        super.destroy({children: true});
     }
 }

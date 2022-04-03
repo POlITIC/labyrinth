@@ -2,7 +2,6 @@ const express = require("express"),
     path = require("path"),
     bodyParser = require("body-parser"),
     labyrinth = require("./labyrinth"),
-    playerManager = require("./math/playerManager"),
     app = express(),
     port = 4040;
 
@@ -97,7 +96,14 @@ app.post("/startMatch", function (req, res) {
     const {sessId, bots} = req.body;
     const user = getUserById(sessId);
 
-    const botConfigs = user.startMatch(bots);
+    const botConfigs = user.startMatch(bots)
+        .map((bot) => {
+            const clone = {...bot};
+            delete clone.assailant;
+            delete clone.victim;
+
+            return clone;
+        });
 
     res.send({action: "matchStarted", botConfigs});
 });

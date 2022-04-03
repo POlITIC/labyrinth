@@ -66,10 +66,6 @@ module.exports = class DeathMatch {
         let pos = bot.position;
         let victim = null;
 
-        if (bot.id !== "hunter1") {
-            return;
-        }
-
         // find a wall in view.
         while (!isWall && !victim) {
             pos = this.getNextCellInView(pos, bot.orientation);
@@ -80,69 +76,61 @@ module.exports = class DeathMatch {
         return victim;
     }
 
-    processMoves() {
-        // TODO refactor to make is simpler
-        // first action
-
-        // process fire actions
-        this.eachLiveBot.forEach(bot => {
-            const {currentMove} = bot;
-            const firstAction = currentMove[0];
-
-            if (firstAction) {
-                if (firstAction === ACTIONS.FIRE && bot.victim) {
-                    bot.victim.isFiredUpon = true;
-                }
-            }
-        });
-
-        // process other actions
-        this.eachLiveBot.forEach(bot => {
-            const {currentMove} = bot;
-            const firstAction = currentMove[0];
-
-            if (firstAction) {
-                bot.performAction(firstAction);
-            }
-        });
-
+    checkForDamage() {
         // conclude actions
         this.eachLiveBot.forEach(bot => {
-            if (bot.isFiredOrientation) {
+            if (bot.assailant) {
+                bot.hp -= bot.assailant.dmg;
+            }
+
+            if (bot.hp <= 0) {
                 bot.isDead = true;
             }
         });
+    }
+
+    processFireActions(actionIndex) {
+        this.eachLiveBot.forEach(bot => {
+            const {currentMove} = bot;
+            const action = currentMove[actionIndex];
+
+            if (action) {
+                if (action === ACTIONS.FIRE && bot.victim) {
+                    bot.victim.isFiredOrientation = bot.orientation;
+                    bot.victim.assailant = bot;
+                }
+            }
+        });
+    }
+
+    processOtherActions(actionIndex) {
+        this.eachLiveBot.forEach(bot => {
+            const {currentMove} = bot;
+            const action = currentMove[actionIndex];
+
+            if (action) {
+                bot.performAction(action);
+            }
+        });
+    }
+
+    processActions(actionIndex) {
+        // process fire actions
+        this.processFireActions(actionIndex);
+
+        // process other actions
+        this.processOtherActions(actionIndex);
+
+        // conclude actions
+        this.checkForDamage();
+    }
+
+    processMoves() {
+        // first action
+        this.processActions(0);
 
         //second action
-
-        // process fire actions
-        this.eachLiveBot.forEach(bot => {
-            const {currentMove} = bot;
-            const secondAction = currentMove[0];
-
-            if (secondAction) {
-                if (secondAction === ACTIONS.FIRE && bot.victim) {
-                    bot.victim.isFiredOrientation = bot.orientation;
-                }
-            }
-        });
-
-        // process other actions
-        this.eachLiveBot.forEach(bot => {
-            const {currentMove} = bot;
-            const secondAction = currentMove[1];
-
-            if (secondAction) {
-                bot.performAction(secondAction);
-            }
-        });
-
-        // conclude actions
-        this.eachLiveBot.forEach(bot => {
-            if (bot.isFiredOrientation) {
-                bot.isDead = true;
-            }
-        });
+        this.processActions(1);
     }
 
     get eachLiveBot() {

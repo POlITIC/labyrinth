@@ -3,11 +3,14 @@ import * as PIXI from "pixi.js";
 
 const getRandomInt = (max = 255) => Math.floor((max + 1) * Math.random());
 
-export const createRandomColor = () => {
-    const r = getRandomInt(15).toString(16);
-    const g = getRandomInt().toString(16);
-    const b = getRandomInt().toString(16);
-
+/**
+ *
+ * @param {string} r
+ * @param {string} g
+ * @param {string} b
+ * @return {string}
+ */
+const rgbToColor = (r, g, b) => {
     let array = [r, g, b];
 
     array = array.map((color) => {
@@ -18,6 +21,36 @@ export const createRandomColor = () => {
     });
 
     return array.join("");
+};
+
+export const createRandomColor = () => {
+    const r = getRandomInt().toString(16);
+    const g = getRandomInt().toString(16);
+    const b = getRandomInt().toString(16);
+
+    return rgbToColor(r, g, b);
+};
+
+export const calculateColorByHp = (hp, maxHp) => {
+    const percent = hp / maxHp;
+    const b = 0;
+    const r = percent > 0.5
+        ? 255 - (255 * ((percent - 0.5) / 0.5))
+        : 255;
+    const g = percent < 0.5
+        ? 255 * (percent / 0.5)
+        : 255;
+
+    return rgbToColor(
+        Math.floor(r).toString(16),
+        Math.floor(g).toString(16),
+        Math.floor(b).toString(16)
+    );
+}
+
+window.testHP = (hp, mhp) => {
+    console.log(calculateColorByHp(hp, mhp));
+    console.log(`%c ${hp}/${mhp}`, `background: #${calculateColorByHp(hp, mhp)}`);
 };
 
 /**
