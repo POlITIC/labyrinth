@@ -1,12 +1,12 @@
 import {DIRECTIONS} from "../constants";
 import * as PIXI from "pixi.js";
 
-const getOneColor = () => Math.floor(256 * Math.random());
+const getRandomInt = (max = 255) => Math.floor((max + 1) * Math.random());
 
 export const createRandomColor = () => {
-    const r = getOneColor().toString(16);
-    const g = getOneColor().toString(16);
-    const b = getOneColor().toString(16);
+    const r = getRandomInt(15).toString(16);
+    const g = getRandomInt().toString(16);
+    const b = getRandomInt().toString(16);
 
     let array = [r, g, b];
 
@@ -17,7 +17,7 @@ export const createRandomColor = () => {
         return color;
     });
 
-    return parseInt(array.join(""), 16);
+    return array.join("");
 };
 
 /**

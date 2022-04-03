@@ -7,8 +7,8 @@ import {setBotColor} from "../store/actionCreators/ActionCreator";
 import store from "../store/store";
 
 const DEFAULT_PARAMS = {
-    width: 300,
-    height: 400
+    width: 1300,
+    height: 1400
 }
 
 class PixiApp {
@@ -58,9 +58,9 @@ class PixiApp {
         const socket = getSocket();
 
         socket.on("gameTick", (stats) => {
-            console.log("%c" + stats.map(s => {
-                return `${s.i}:${JSON.stringify(s.p)}:${s.o}:${s.d}`;
-            }).join("\n"), `background: #${stats.some(s=>s.d)?"ffffff":"111111"}`);
+            // console.log("%c" + stats.map(s => {
+            //     return `${s.i}:${JSON.stringify(s.p)}:${s.o}:${s.d}`;
+            // }).join("\n"), `background: #${stats.some(s=>s.d)?"ffffff":"111111"}`);
 
             this.updateBots(stats);
         });
@@ -74,10 +74,10 @@ class PixiApp {
         configs.forEach((botConfig) => {
             const color = createRandomColor();
 
-            store.dispatch(setBotColor(botConfig.id, color.toString(16)));
+            store.dispatch(setBotColor(botConfig.id, color));
 
             const bot = new PixiPlayer({
-                color,
+                color: parseInt(color, 16),
                 name: botConfig.id,
                 direction: botConfig.orientation,
                 maxHP: 100,
@@ -91,8 +91,6 @@ class PixiApp {
 
             this.players[botConfig.id] = bot;
         });
-
-        console.error("BOTS CREATED");
     }
 
     updateBots(configs) {
