@@ -60,7 +60,7 @@ class LabyrinthField extends React.Component {
     render() {
         return (
             <Grid container className="App">
-                <BotsView match onCheck={this.onBotCheck.bind(this)}/>
+                <BotsView match chooseCallback={this.onBotCheck.bind(this)}/>
 
                 <Grid item>
                     <Button variant="contained" color="primary" label="getLab"

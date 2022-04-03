@@ -1,20 +1,22 @@
 import React from 'react';
-import {Button, Paper} from "@material-ui/core";
+import {Button, Grid} from "@material-ui/core";
 import CodeMirror from "react-codemirror";
 import "codemirror/mode/javascript/javascript";
-import "codemirror/lib/codemirror.css"
+import "codemirror/lib/codemirror.css";
+import "codemirror/theme/eclipse.css";
 import 'codemirror/addon/display/autorefresh';
 import 'codemirror/addon/comment/comment';
 import 'codemirror/addon/edit/matchbrackets';
-import {submitCode} from "../ServerAPI";
+import {deleteBot, getBotData, submitCode} from "../ServerAPI";
 import {connect} from "react-redux";
-import {updateCode} from "../store/actionCreators/ActionCreator";
+import {setCurrentBot, updateCode} from "../store/actionCreators/ActionCreator";
 import store from "../store/store";
+import BotsView from "./BotsView";
 
 
-const mapStateToProps = ({code}) => {
+const mapStateToProps = ({code, currentBot}) => {
 	return {
-		code
+		code, currentBot
 	};
 };
 
@@ -28,13 +30,18 @@ class CodeInput extends React.Component {
 
 		this.state = {
 			submitDisabled: false,
-			botName: "bot"
+			mountCount: 0
 		};
 
 		this.updateCode = this.updateCode.bind(this);
 
-
 		this.mirrorRef = React.createRef();
+	}
+
+	incMountCount () {
+		this.setState(Object.assign({}, this.state, {
+			mountCount: this.state.mountCount + 1
+		}));
 	}
 
 	updateCode(newCode) {
@@ -42,9 +49,7 @@ class CodeInput extends React.Component {
 	}
 
 	updateBotName(event) {
-		this.setState(Object.assign({}, this.state, {
-			botName: event.target.value
-		}));
+		store.dispatch(setCurrentBot( event.target.value));
 	}
 
 	setSubmitDisabled(disabled) {
@@ -53,13 +58,27 @@ class CodeInput extends React.Component {
 		}));
 	}
 
-	submit() {
+	submitBot() {
 		this.setSubmitDisabled(true);
 
-		submitCode(this.state.botName, this.props.code)
-			.finally(() => {
-				this.setSubmitDisabled(false);
-			});
+		if(this.props.currentBot){
+			submitCode(this.props.currentBot, this.props.code)
+				.finally(() => {
+					this.setSubmitDisabled(false);
+					this.incMountCount();// TODO this is a fucking crutch
+				});
+		}else {
+			console.error("Enter bot name, please!");
+		}
+	}
+
+	async deleteBot(){
+		const deleted = await deleteBot(this.props.currentBot);
+
+		if(deleted){
+			store.dispatch(setCurrentBot(""));
+		}
+		this.incMountCount();
 	}
 
 	readTextFile(file) {
@@ -94,57 +113,82 @@ class CodeInput extends React.Component {
 		this.updateCode(this.props.code)
 	}
 
+	async botChosenCallback(botName) {
+		const {code} = await getBotData(botName);
+		const mirrInstance = this.mirrorRef.current.getCodeMirror();
+
+		mirrInstance.doc.setValue(code);
+
+		this.updateCode(code);
+	}
+
 	render() {
 		return (
-			<div>
-				Bot Name:
-				<input
-					accept="text/javascript"
-					style={{
-						margin: "10px"
-					}}
-					id={botNameInputID}
-					type="text"
-					onChange={this.updateBotName.bind(this)}
-					value={this.state.botName}
-				/>
-				<CodeMirror
-					value={this.props.code}
-					onChange={this.updateCode.bind(this)}
-					ref={this.mirrorRef}
-					preserveScrollPosition={true}
-					options={
-						{
-							smartIndent: true,
-							mode: "javascript"
+			<Grid container className="App">
+
+				<BotsView chooseCallback={this.botChosenCallback.bind(this)} key={this.state.mountCount}/>
+
+				<Grid item style={{textAlign: "left"}}>
+					Bot Name:
+					<input
+						accept="text/javascript"
+						style={{
+							margin: "10px"
+						}}
+						id={botNameInputID}
+						type="text"
+						onChange={this.updateBotName.bind(this)}
+						value={this.props.currentBot}
+					/>
+					<CodeMirror
+						value={this.props.code}
+						onChange={this.updateCode.bind(this)}
+						ref={this.mirrorRef}
+						preserveScrollPosition={true}
+						options={
+							{
+								theme: "eclipse",
+								smartIndent: true,
+								mode: "javascript"
+							}
 						}
-					}
-				/>
+					/>
 
-				<input
-					accept="text/javascript"
-					style={{display: 'none'}}
-					id={fileInputID}
-					multiple
-					type="file"
-				/>
-				<label htmlFor={fileInputID}>
-					<Button variant="contained" component="span">
-						Load File
+					<input
+						accept="text/javascript"
+						style={{display: 'none'}}
+						id={fileInputID}
+						multiple
+						type="file"
+					/>
+					<label htmlFor={fileInputID}>
+						<Button variant="contained" component="span">
+							Load File
+						</Button>
+					</label>
+
+					<Button
+						variant="contained"
+						color="primary"
+						label="Submit"
+						disabled={this.state.submitDisabled}
+						onClick={this.submitBot.bind(this)}
+					>
+						Submit
 					</Button>
-				</label>
 
-				<Button variant="contained" label="Run">Run</Button>
-				<Button
-					variant="contained"
-					color="primary"
-					label="Submit"
-					disabled={this.state.submitDisabled}
-					onClick={this.submit.bind(this)}
-				>
-					Submit
-				</Button>
-			</div>
+					<Button
+						variant="contained"
+						color="primary"
+						label="Submit"
+						disabled={!Boolean(this.props.currentBot)}
+						onClick={this.deleteBot.bind(this)}
+					>
+						Delete
+					</Button>
+				</Grid>
+			</Grid>
+
 		);
 	}
 

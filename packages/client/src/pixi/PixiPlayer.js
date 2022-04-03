@@ -41,7 +41,7 @@ export default class PixiPlayer {
         body.clear();
 
         body.beginFill(this.color, 1);
-        body.lineStyle(1, 0xaa0000);
+        body.lineStyle(2, 0xaa0000);
         body.drawRect(0, 0, this.width, this.height);
         body.endFill();
 
@@ -63,7 +63,7 @@ export default class PixiPlayer {
         scopes.clear();
 
         scopes.beginFill(0xffffff, 0.3);
-        scopes.lineStyle(1, 0xaa0000);
+        scopes.lineStyle(2, 0xaa0000);
 
         const points = getDirectionPoints(this.width, this.height, this.direction);
 

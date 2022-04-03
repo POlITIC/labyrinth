@@ -10,13 +10,18 @@ import {
 } from "@material-ui/core";
 import {getAllBots} from "../ServerAPI";
 import {
-    clearBotsMatch,
     setBots,
     setCurrentBot
 } from "../store/actionCreators/ActionCreator";
 import store from "../store/store";
 
-const mapStateToProps = ({bots, currentBot, botsSelectedToMatch, botsMatchColors, matchStarted}) =>
+const mapStateToProps = ({
+                             bots,
+                             currentBot,
+                             botsSelectedToMatch,
+                             botsMatchColors,
+                             matchStarted
+                         }) =>
     ({bots, currentBot, botsSelectedToMatch, botsMatchColors, matchStarted});
 
 class BotsView extends Component {
@@ -28,21 +33,24 @@ class BotsView extends Component {
 
     getBotItem(botName) {
         return this.props.match
-            ? <Checkbox value={botName} onChange={this.props.onCheck}/>
+            ? <Checkbox value={botName} onChange={this.props.chooseCallback}/>
             : <Radio value={botName}/>;
     }
 
     setCurrentBot(event) {
-        store.dispatch(setCurrentBot(event.target.value));
+        const botName = event.target.value;
+
+        store.dispatch(setCurrentBot(botName));
+        this.props.chooseCallback(botName);
     }
 
     getBotsWrapper() {
         return this.props.match
-            ? <List> { this.getBots() } </List>
+            ? <List> {this.getBots()} </List>
             : <RadioGroup
-                onChange={this.setCurrentBot}
+                onChange={this.setCurrentBot.bind(this)}
             >
-                { this.getBots() }
+                {this.getBots()}
             </RadioGroup>
     }
 
@@ -57,7 +65,8 @@ class BotsView extends Component {
                     ? {background: `#${this.props.botsMatchColors[botName]}`}
                     : {};
 
-                return <ListItem key={botName} style={{borderStyle: "solid", ...style}}>
+                return <ListItem key={botName}
+                                 style={{borderStyle: "solid", ...style}}>
                     {this.props.matchStarted ? "" : this.getBotItem(botName)} {botName}
                 </ListItem>;
             }
@@ -68,7 +77,7 @@ class BotsView extends Component {
         return (
             <Grid item>
                 {this.props.matchStarted ? "Bots fighting:" : "Choose your bot:"}
-                { this.getBotsWrapper() }
+                {this.getBotsWrapper()}
             </Grid>
         );
     }

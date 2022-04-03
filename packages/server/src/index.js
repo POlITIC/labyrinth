@@ -11,7 +11,7 @@ const http = require('http').Server(app);
 const {loginUser} = require("./data/User");
 const {setupSocket} = require("./socket/socket");
 const {getUserById} = require("./user/User");
-const {addOrUpdateBot, getBot, getUserBots} = require("./data/Bot");
+const {addOrUpdateBot, getBot, getUserBots, deleteBot} = require("./data/Bot");
 
 setupSocket(http);
 
@@ -72,10 +72,25 @@ app.post("/saveBotCode", function (req, res) {
     res.send({action: "submission"});
 });
 
-app.post("/getBots", (req, res) => {
+app.post("/getAllBots", (req, res) => {
     const {sessId} = req.body;
 
     res.send(getUserBots(getUserById(sessId).model.$loki));
+});
+
+app.post("/getBotData", (req, res) => {
+    const {sessId, botName} = req.body;
+    const userId = getUserById(sessId).model.$loki;
+
+    res.send(getBot(userId, botName));
+});
+
+app.post("/deleteBot", (req, res) => {
+    const {sessId, botName} = req.body;
+    // TODO should be able to delete bot from user.
+    const userId = getUserById(sessId).model.$loki;
+
+    res.send({result: deleteBot(userId, botName)});
 });
 
 app.post("/startMatch", function (req, res) {

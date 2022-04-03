@@ -33,6 +33,17 @@ const getBot = (userId, botName) => {
     })[0];
 };
 
+const deleteBot = (userId, botName) => {
+    try{
+        botCollection.findAndRemove({
+            userId, botName
+        });
+        return true;
+    }catch (e){
+        return false;
+    }
+};
+
 const getUserBots = (userId) => {
     getBotCollection();
 
@@ -46,5 +57,5 @@ const getUserBots = (userId) => {
 };
 
 module.exports = {
-    addOrUpdateBot, getBot, getUserBots
+    addOrUpdateBot, getBot, getUserBots, deleteBot
 };

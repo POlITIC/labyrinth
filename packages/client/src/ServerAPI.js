@@ -61,7 +61,7 @@ export const getLabyrinth = (id) => {
 };
 
 export const getAllBots = () => {
-    return post({}, "/getBots")
+    return post({}, "/getAllBots")
 };
 
 export const submitCode = (botName, code) => {
@@ -69,6 +69,18 @@ export const submitCode = (botName, code) => {
         botName,
         code
     }, "/saveBotCode");
+};
+
+export const getBotData = (botName) => {
+    return post({
+        botName
+    }, "/getBotData");
+};
+
+export const deleteBot = (botName) => {
+    return post({
+        botName
+    }, "/deleteBot");
 };
 
 export const startMatch = () => {
