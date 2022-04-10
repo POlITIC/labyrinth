@@ -3,7 +3,7 @@ const {getUserBots} = require("../data/Bot");
 const labyrinth = require("../labyrinth");
 const usersSess = {};
 const usersModelId = {};
-const DEFAULT_FRAME_TIME = 100;
+const DEFAULT_FRAME_TIME = 300;
 
 class User {
     constructor(model) {

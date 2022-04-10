@@ -11,5 +11,6 @@ export default {
 	currentBot: "",
 	botsSelectedToMatch: [],
 	botsMatchColors: {},
+	deadBots: [],
 	matchStarted: false
 };

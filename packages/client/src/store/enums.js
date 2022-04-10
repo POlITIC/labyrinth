@@ -10,7 +10,8 @@ export const actions = {
 	CLEAR_BOTS_MATCH: "clearBotsMatch",
 	SET_BOT_COLOR: "setBotColor",
 	START_MATCH: "startMatch",
-	END_MATCH: "endMatch"
+	END_MATCH: "endMatch",
+	DEAD_BOT: "deadBot"
 };
 
 export const stages = {

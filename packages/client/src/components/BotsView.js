@@ -20,9 +20,10 @@ const mapStateToProps = ({
                              currentBot,
                              botsSelectedToMatch,
                              botsMatchColors,
-                             matchStarted
+                             matchStarted,
+                             deadBots
                          }) =>
-    ({bots, currentBot, botsSelectedToMatch, botsMatchColors, matchStarted});
+    ({bots, currentBot, botsSelectedToMatch, botsMatchColors, matchStarted, deadBots});
 
 class BotsView extends Component {
 
@@ -35,6 +36,10 @@ class BotsView extends Component {
         return this.props.match
             ? <Checkbox value={botName} onChange={this.props.chooseCallback}/>
             : <Radio value={botName}/>;
+    }
+
+    isBotDead(botName){
+        return this.props.deadBots.includes(botName);
     }
 
     setCurrentBot(event) {
@@ -62,7 +67,12 @@ class BotsView extends Component {
         return bots.map(
             (botName) => {
                 const style = this.props.matchStarted
-                    ? {background: `#${this.props.botsMatchColors[botName]}`}
+                    ? {
+                        background: `#${this.props.botsMatchColors[botName]}`,
+                        opacity: this.isBotDead(botName) ? 0.2 : 1,
+                        borderStyle: this.isBotDead(botName) ? "dashed" : "solid",
+                        borderColor: this.isBotDead(botName) ? "#ffffff" : "#000000"
+                    }
                     : {};
 
                 return <ListItem key={botName}

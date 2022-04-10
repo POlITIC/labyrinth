@@ -1,6 +1,8 @@
 import * as PIXI from "pixi.js";
 import {getDirectionPoints} from "./utils";
 import {PixiHealthBar} from "./PixiHealthBar";
+import store from "../store/store";
+import {deadBot} from "../store/actionCreators/ActionCreator";
 
 export default class PixiPlayer extends PIXI.Container {
     /**
@@ -134,6 +136,8 @@ export default class PixiPlayer extends PIXI.Container {
         this.healthBar.destroy();
         this.alpha = 0.1;
         this.dead = true
+
+        store.dispatch(deadBot(this.name));
     }
 
     destroy() {

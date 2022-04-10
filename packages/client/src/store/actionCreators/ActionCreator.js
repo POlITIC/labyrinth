@@ -60,6 +60,13 @@ export const removeBotFromMatch = (botName) => {
 	};
 };
 
+export const deadBot = (botName) => {
+	return {
+		type: actions.DEAD_BOT,
+		value: botName
+	};
+};
+
 export const setBotColor = (botName, color) => {
 	return {
 		type: actions.SET_BOT_COLOR,
