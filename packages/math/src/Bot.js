@@ -1,7 +1,5 @@
 const {ACTIONS, ORIENTATIONS, INIT_HP, DAMAGE} = require("./Constants");
 
-let ii = 0;
-
 module.exports = class Bot {
 
     /**
@@ -32,17 +30,16 @@ module.exports = class Bot {
      * @param {object} config
      * @param {string} config.botName
      * @param {string} config.code
+     * @param {string} config.pos
      * @param {object} labyrinth Labyrinth reference
      */
     constructor(config, labyrinth) {
         this.id = config.botName;
-        this.position = {
-            left: ii % 2 > 0.5 ? 1 : 3,
+
+        this.position = config.pos || {
+            left: Math.random() > 0.5 ? 1 : 3,
             top: 2
         };
-
-        // TODO remove this shit
-        ii++;
 
         this.orientation = ORIENTATIONS.RIGHT;
         this.isDead = false;

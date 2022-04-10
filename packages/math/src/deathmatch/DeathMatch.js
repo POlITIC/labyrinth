@@ -1,17 +1,67 @@
 const Labyrinth = require("../Labyrinth");
 const Bot = require("../Bot");
 const {ORIENTATIONS, ACTIONS} = require("../Constants");
+const {calculateMinDistance} = require("../utils");
+
+const additions = [
+    [-1, -1], [0, -1], [1, -1],
+    [-1, 0], [1, 0],
+    [-1, 1], [0, 1], [1, 1]
+];
 
 module.exports = class DeathMatch {
     constructor(labyrinthConfig, botConfigs) {
         this.labyrinth = new Labyrinth(labyrinthConfig);
-        console.error("NEW MATCH");
 
         this.createBots(botConfigs);
     }
 
     createBots(botConfigs) {
-        this.bots = botConfigs.map((conf) => new Bot(conf, this.labyrinth));
+        // TODO improve this
+
+        // one side of a quadrant size
+        const minDistance = Math.floor(this.labyrinth.width / (botConfigs.length + 1));
+
+        this.bots = [];
+
+        botConfigs.forEach((conf, index) => {
+            let posFound = false;
+            let pos = {};
+
+            while (!posFound) {
+                pos = {
+                    left: Math.floor(Math.random() * this.labyrinth.width),
+                    top: Math.floor(Math.random() * this.labyrinth.height)
+                };
+
+                if (
+                    index !== 0
+                    && calculateMinDistance(
+                        this.bots.slice(0, index).map(bot => bot.position)
+                        , pos) < minDistance
+                ) {
+                    continue;
+                }
+
+                let i = 0;
+                while (!posFound && additions[i]) {
+                    pos.left += additions[i][0];
+                    pos.top += additions[i][1];
+                    posFound = true;
+                    i++;
+                    //TODO refactor this
+                    if (this.labyrinth.getWall(pos)) {
+                        posFound = false;
+                    }
+                }
+
+            }
+
+            // console.log(`Bot ${conf.botName}'s position is ${pos.left} ${pos.top} and there is wall: ${Boolean(this.labyrinth.getWall(pos))}`);
+
+            this.bots.push(new Bot({...conf, pos}, this.labyrinth));
+        });
+
     }
 
     makeBotMoves() {
@@ -28,8 +78,11 @@ module.exports = class DeathMatch {
         // TODO concept of saved data
         return this.bots.map(bot => {
             const position = bot.position;
+
             const surround = this.labyrinth.getPositionSurround(position); // TODO ARRAY????
+
             const orientation = bot.orientation;
+
             const enemyInView = this.getEnemyInView(bot);
 
             bot.victim = enemyInView;
@@ -141,8 +194,6 @@ module.exports = class DeathMatch {
         this.bots.forEach(bot => bot.moveCleanup());
 
         this.makeBotMoves();
-
-        // console.log(this.bots.map(bot => `${bot.id}[${bot.currentMove.join(",")}]`));
 
         this.processMoves();
 
