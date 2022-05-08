@@ -13,6 +13,8 @@ const calculateMinDistance = (posArr, pos) => {
     });
 };
 
+const deepClone = (obj) => JSON.parse(JSON.stringify(obj));
+
 module.exports = {
-    calculateDistance, calculateMinDistance
+    calculateDistance, calculateMinDistance, deepClone
 }
