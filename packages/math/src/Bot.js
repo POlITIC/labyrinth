@@ -39,7 +39,12 @@ module.exports = class Bot {
         this.id = config.botName;
 
         this.sandbox = {
-            config: {}
+            console: {
+                log: (...args) => {
+                    console.log(...args);
+                }
+            },
+            moveData: {}
         };
 
         this.position = config.pos || {
@@ -59,6 +64,8 @@ module.exports = class Bot {
         this.isFiredOrientation = null;
         this.assailant = null;
 
+        this.savedData = {};
+
         this.createBotCode(config.code);
     }
 
@@ -76,8 +83,8 @@ module.exports = class Bot {
 
         const script = new VMScript(`( function () { ${code} } ) ();`);
 
-        this.moveCallback = (config) => {
-            this.sandbox.config = deepClone(config);
+        this.moveCallback = (moveData) => {
+            vm.sandbox.moveData = moveData;
 
             try{
                 return vm.run(script);
@@ -135,7 +142,9 @@ module.exports = class Bot {
          */
         makeAMove(config)
         {
-            this.currentMove = this.moveCallback(config);
+            const moveData = {...deepClone(config), saveData: this.savedData};
+
+            this.currentMove = this.moveCallback(moveData);
         }
 
         /**

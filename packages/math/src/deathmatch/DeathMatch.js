@@ -91,7 +91,7 @@ module.exports = class DeathMatch {
                 position,
                 surround,
                 orientation,
-                enemyInView
+                enemyInView: Boolean(enemyInView)
             };
         });
     }
