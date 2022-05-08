@@ -109,11 +109,11 @@ if (!freeDirections.includes(saveData.prevMoveDir)) {
 
 const nextPos = getNextPos(dirToMove);
 
-console.log(prevPos, position, nextPos, dirToMove);
+// console.log(prevPos, position, nextPos, dirToMove);
 
-if(prevPos && (prevPos.left === nextPos.left && prevPos.top === nextPos.top)){
-    console.log("GOING BACK",freeDirections, freeDirections.length);
-}
+// if(prevPos && (prevPos.left === nextPos.left && prevPos.top === nextPos.top)){
+//     console.log("GOING BACK",freeDirections, freeDirections.length);
+// }
 
 if (orientation !== dirToMove) {
     cmds.push(`LOOK_${dirToMove}`);
