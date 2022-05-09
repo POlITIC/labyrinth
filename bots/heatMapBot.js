@@ -23,7 +23,6 @@ You need to return one or two of those actions in an array, examples: ['MOVE_LEF
 */
 
 //TODO SCRIPT EXECUTION TOOK TOO MUCH TIME SOMEHOW!!! FIND WHY???
-// This bot gets stuck in loops and goes right almost always
 
 const surKeyToDir = (key) => {
     const map = {
@@ -61,60 +60,47 @@ if (!saveData.history) {
     saveData.history = [];
 }
 
-const {history} = saveData;
+if(!saveData.mapData){
+    saveData.mapData = [];
+}
+
+if(!saveData.mapData[position.left]){
+    saveData.mapData[position.left] = [];
+}
+
+if(!saveData.mapData[position.left][position.top]){
+    saveData.mapData[position.left][position.top] = 1;
+}else{
+    saveData.mapData[position.left][position.top] += 1;
+}
+
+const {history, mapData} = saveData;
 
 const freeDirections = Object.keys(surround)
     .filter((key) => {
         return !Boolean(surround[key]);
     })
-    .map(freeKey => surKeyToDir(freeKey));
+    .map(freeKey => surKeyToDir(freeKey))
+    .sort((d1, d2)=> {
+        const nextPos1 = getNextPos(d1);
+        const nextPos2 = getNextPos(d2);
 
-let dirToMove = saveData.prevMoveDir || "UP";
+        const h1 = mapData[nextPos1.left]?.[nextPos1.top] || 0;
+
+        const h2 = mapData[nextPos2.left]?.[nextPos2.top] || 0;
+
+        return h1 - h2;
+    });
+
+let dirToMove = freeDirections[0] || "UP";
 
 const prevPos = history[history.length - 1] && history[history.length - 1].pos;
 
-// TODO sort possible variants by amount of positions hit, to prioritize least visited positions.
-if (!freeDirections.includes(saveData.prevMoveDir)) {
-    dirToMove = freeDirections[0];
-
-    if (freeDirections.length > 1) {
-        // dirToMove = freeDirections[Math.floor(Math.random() * freeDirections.length)];
-        freeDirections.forEach((dir) => {
-
-            // checking for repetition in last N moves
-            // let repeated = false;
-            // for (let i = history.length - 1; i >= Math.max(0, history.length - historyThreshold); i--) {
-            //     const hi = history[i];
-            //
-            //     if (equalHistoryItems(hi, {pos: position, dir})) {
-            //         repeated = true;
-            //     }
-            // }
-
-            // NO GOING BACK
-            const nextPos = getNextPos(dir);
-
-            if(prevPos && (prevPos.left !== nextPos.left || prevPos.top !== nextPos.top)){
-                dirToMove = dir;
-            }
-
-        });
-
-    }
-
-} else {
-    if (freeDirections.length > 1) {
-        // TODO there is a choice where to go, but how to choose??
-    }
-}
-
 const nextPos = getNextPos(dirToMove);
 
-// console.log(prevPos, position, nextPos, dirToMove);
-
-// if(prevPos && (prevPos.left === nextPos.left && prevPos.top === nextPos.top)){
-//     console.log("GOING BACK",freeDirections, freeDirections.length);
-// }
+if(prevPos && (prevPos.left === nextPos.left && prevPos.top === nextPos.top)){
+    console.log("GOING BACK",freeDirections, freeDirections.length);
+}
 
 if (orientation !== dirToMove) {
     cmds.push(`LOOK_${dirToMove}`);
