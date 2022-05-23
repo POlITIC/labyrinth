@@ -69,7 +69,9 @@ module.exports = class DeathMatch {
 
         this.bots.forEach((bot, index) => {
             // TODO try-catch this maybe
-            bot.makeAMove(moveConfigs[index]);
+            if(!bot.isDead){
+                bot.makeAMove(moveConfigs[index]);
+            }
             // result of the config should be 2 actions in an order in an array
         });
     }
@@ -87,11 +89,14 @@ module.exports = class DeathMatch {
 
             bot.victim = enemyInView;
 
+            const hp = bot.hp;
+
             return {
                 position,
                 surround,
                 orientation,
-                enemyInView: Boolean(enemyInView)
+                enemyInView: Boolean(enemyInView),
+                hp
             };
         });
     }
@@ -137,6 +142,7 @@ module.exports = class DeathMatch {
             }
 
             if (bot.hp <= 0) {
+                console.log(`BOT ${bot.id} is dead!`);
                 bot.isDead = true;
             }
         });

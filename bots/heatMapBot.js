@@ -22,8 +22,6 @@ Possible actions are: 'MOVE_LEFT', 'MOVE_UP', 'MOVE_RIGHT', 'MOVE_DOWN', 'LOOK_L
 You need to return one or two of those actions in an array, examples: ['MOVE_LEFT', 'MOVE_UP'], ['LOOK_UP', 'MOVE_RIGHT'], ['LOOK_UP', 'FIRE'], ['MOVE_RIGHT'], ['FIRE']
 */
 
-//TODO SCRIPT EXECUTION TOOK TOO MUCH TIME SOMEHOW!!! FIND WHY???
-
 const surKeyToDir = (key) => {
     const map = {
         left: "LEFT",
@@ -35,12 +33,6 @@ const surKeyToDir = (key) => {
     return map[key];
 };
 
-const equalHistoryItems = (h1, h2) => {
-    return h1.pos.left === h2.pos.left
-        && h1.pos.right === h2.pos.right
-        && h1.dir === h2.dir
-};
-
 const getNextPos = (dir) => {
     switch(dir){
         case "LEFT": return {left: position.left - 1, top: position.top};
@@ -49,9 +41,6 @@ const getNextPos = (dir) => {
         case "DOWN": return {left: position.left, top: position.top + 1};
     }
 };
-
-const historyThreshold = 15;
-// history format {pos: {}, dir: {}};
 
 const {saveData, surround, orientation, position, enemyInView} = moveData;
 const cmds = [];
@@ -96,16 +85,11 @@ let dirToMove = freeDirections[0] || "UP";
 
 const prevPos = history[history.length - 1] && history[history.length - 1].pos;
 
-const nextPos = getNextPos(dirToMove);
-
-if(prevPos && (prevPos.left === nextPos.left && prevPos.top === nextPos.top)){
-    console.log("GOING BACK",freeDirections, freeDirections.length);
-}
-
 if (orientation !== dirToMove) {
     cmds.push(`LOOK_${dirToMove}`);
 } else {
     if(enemyInView){
+        console.log("FIRE");
         cmds.push("FIRE");
     }
 }

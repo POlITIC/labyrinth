@@ -41,7 +41,7 @@ module.exports = class Bot {
         this.sandbox = {
             console: {
                 log: (...args) => {
-                    console.log(...args);
+                    console.log(`BOT ${this.id} log: `, ...args);
                 }
             },
             moveData: {}
