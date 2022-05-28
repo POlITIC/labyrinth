@@ -1,6 +1,7 @@
 const {setupGame} = require("math");
 const {getUserBots} = require("../data/Bot");
 const labyrinth = require("../labyrinth");
+const {addMatch, getMatchesByUser, getMatchById} = require("../data/Match");
 const usersSess = {};
 const usersModelId = {};
 const DEFAULT_FRAME_TIME = 50;
@@ -17,6 +18,8 @@ class User {
 
         usersSess[this.sessId] = this;
         usersModelId[this.model.$loki] = this;
+
+        this.currentMatchMoves = [];
     }
 
     setSocket(socket) {
@@ -32,6 +35,8 @@ class User {
         this.game = setupGame(labyrinth.getCurrentConfig(), botConfigs)
 
         this.playing = true;
+        this.currentMatchMoves = [];
+
         this.play();
         console.error("NEW MATCH");
 
@@ -42,11 +47,9 @@ class User {
         if (this.playing) {
             const stats = this.game.tick();
 
-            // console.log("stats", stats.length, stats.map(s => {
-            //     return `${s.i}:${JSON.stringify(s.p)}:${s.d}`;
-            // }).join("\n"));
-
             this.socket.emit("gameTick", stats);
+
+            this.currentMatchMoves.push(stats);
 
             if(this.game.eachLiveBot.length === 1){
                 this.stop();
@@ -64,6 +67,9 @@ class User {
         if(this.matchTimeout){
             clearTimeout(this.matchTimeout);
         }
+
+        addMatch(this.model.$loki, this.currentMatchMoves);
+
         console.log("STOP MATCH");
     }
 

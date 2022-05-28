@@ -1,7 +1,7 @@
 const loki = require("lokijs");
-const {COLLECTION_USERS_NAME, COLLECTION_BOTS_NAME, DB_NAME} = require("./constants");
+const {COLLECTION_USERS_NAME, COLLECTION_BOTS_NAME, DB_NAME, COLLECTION_MATCHES_NAME} = require("./constants");
 
-const collections = [COLLECTION_USERS_NAME, COLLECTION_BOTS_NAME];
+const collections = [COLLECTION_USERS_NAME, COLLECTION_BOTS_NAME, COLLECTION_MATCHES_NAME];
 
 const onDBInit = () => {
     collections.forEach((name) => {
