@@ -94,6 +94,27 @@ export default class PixiPlayer extends PIXI.Container {
         this.addChild(hb);
     }
 
+    processLog(logStr) {
+        const entries = JSON.parse(logStr);
+        entries.forEach((entry) => {
+            let msg, args;
+            try {
+                msg = entry.msg;
+                args = entry.arg;
+            } catch (e) {
+                console.error(`Error in logging data from ${this.name}`);
+                console.error(`Log entry string: ${logStr}`);
+            }
+
+            try {
+                console.log(msg, ...JSON.parse(args));
+            } catch (e) {
+                console.error(`Error parsing msg arguments`);
+                console.error(`ARG string: ${args}`);
+            }
+        });
+    }
+
     /**
      *
      * @param {object} data
@@ -106,6 +127,11 @@ export default class PixiPlayer extends PIXI.Container {
     update(data) {
         if (this.dead) {
             return;
+        }
+
+        // move code execution log
+        if (data.l) {
+            this.processLog(data.l);
         }
 
         if (data.d) {

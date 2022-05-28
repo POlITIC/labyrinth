@@ -58,10 +58,6 @@ class PixiApp {
         const socket = getSocket();
 
         socket.on("gameTick", (stats) => {
-            // console.log("%c" + stats.map(s => {
-            //     return `${s.i}:${JSON.stringify(s.p)}:${s.o}:${s.d}`;
-            // }).join("\n"), `background: #${stats.some(s=>s.d)?"ffffff":"111111"}`);
-
             this.updateBots(stats);
         });
     }
@@ -100,6 +96,8 @@ class PixiApp {
 
         configs.forEach(botConfig => {
             const bot = this.players[botConfig.i];
+
+            //TODO here is where we could refactor and update bots in some centralized way
 
             bot.update(botConfig);
         });
