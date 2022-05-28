@@ -28,4 +28,4 @@ const loginUser = (data) => {
     return getOrCreateUser(user ? user : createUser(data));
 };
 
-module.exports = {loginUser};
+module.exports = {loginUser, getUser, ADMIN_USER_NAMES};

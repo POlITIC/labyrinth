@@ -11,6 +11,8 @@ const {loginUser} = require("./data/User");
 const {setupSocket} = require("./socket/socket");
 const {getUserById} = require("./user/User");
 const {addOrUpdateBot, getBot, getUserBots, deleteBot} = require("./data/Bot");
+const {getLabyrinthById} = require("./data/Labyrinth");
+const {PRIMAL_LABYRINTH_ID} = require("./data/constants");
 
 setupSocket(http);
 
@@ -54,11 +56,14 @@ app.post("/login", function (req, res) {
 });
 
 app.post("/labyrinth", function (req, res) {
-    var labConf = labyrinth.getCurrentConfig();
+    const labId = req.body.labId;
+    const labConf = getLabyrinthById(labId || PRIMAL_LABYRINTH_ID);
 
-    res.send({
-        labyrinth: labConf
-    });
+    if(labConf){
+        res.send({
+            labyrinth: labConf.map
+        });
+    }
 });
 
 app.post("/saveBotCode", function (req, res) {
@@ -93,10 +98,10 @@ app.post("/deleteBot", (req, res) => {
 });
 
 app.post("/startMatch", function (req, res) {
-    const {sessId, bots} = req.body;
+    const {sessId, bots, labId} = req.body;
     const user = getUserById(sessId);
 
-    const botConfigs = user.startMatch(bots)
+    const botConfigs = user.startMatch(bots, labId || PRIMAL_LABYRINTH_ID)
         .map((bot) => {
             const clone = {...bot};
             delete clone.assailant;

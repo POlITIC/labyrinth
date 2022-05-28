@@ -2,6 +2,7 @@ const {setupGame} = require("math");
 const {getUserBots} = require("../data/Bot");
 const labyrinth = require("../labyrinth");
 const {addMatch, getMatchesByUser, getMatchById} = require("../data/Match");
+const {getLabyrinthById} = require("../data/Labyrinth");
 const usersSess = {};
 const usersModelId = {};
 const DEFAULT_FRAME_TIME = 50;
@@ -32,9 +33,9 @@ class User {
         return {...this.model, sessId: this.sessId};
     }
 
-    startMatch(bots) {
+    startMatch(bots, labId) {
         const botConfigs = getUserBots(this.model.$loki).filter(({botName}) => bots.includes(botName));
-        this.game = setupGame(labyrinth.getCurrentConfig(), botConfigs)
+        this.game = setupGame(getLabyrinthById(labId).map, botConfigs)
 
         this.playing = true;
         this.currentMatchMoves = [];
