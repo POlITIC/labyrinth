@@ -13,6 +13,7 @@ import PixiApp from "../pixi/PixiApp";
 const mapStateToProps = ({loginData, stage}) => {
 	return {
 		userName: loginData.name,
+		isAdmin: loginData.admin,
 		stage: stage
 	}
 };
@@ -47,7 +48,7 @@ class MainPage extends React.Component {
 			<div>
 				<Container maxWidth="sm">
 					<Paper elevation={1}>
-						Hello {this.props.userName}!
+						Hello {this.props.userName}! {this.props.isAdmin && "You are an admin!"}
 
 						<Button variant="contained" color="primary" label="Name"
 								onClick={this.setStage.bind(this, stages.CODE)}>Bot design</Button>

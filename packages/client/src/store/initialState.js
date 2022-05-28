@@ -2,6 +2,7 @@ export default {
 	loginData: {
 		sessId: null,
 		loggedIn: false,
+		admin: false,
 		name: null
 	},
 	labConfig: null,

@@ -16,6 +16,8 @@ class User {
         this.playing = false;
         this.matchTimeout = null;
 
+        this.isAdmin = Boolean(this.model.admin);
+
         usersSess[this.sessId] = this;
         usersModelId[this.model.$loki] = this;
 
