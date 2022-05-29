@@ -34,6 +34,7 @@ class User {
     }
 
     startMatch(bots, labId) {
+        console.log("LAB ID TO USE", labId);
         const botConfigs = getUserBots(this.model.$loki).filter(({botName}) => bots.includes(botName));
         this.game = setupGame(getLabyrinthById(labId).map, botConfigs)
 

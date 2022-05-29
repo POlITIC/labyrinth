@@ -116,14 +116,13 @@ class PixiApp {
         }
     }
 
-    startMatch(labyrinthConfig, botConfigs) {
-        this.clearField();
-        this.showLabyrinth(labyrinthConfig)
+    startMatch(botConfigs) {
         this.createBots(botConfigs);
         this.started = true;
     }
 
     stopMatch() {
+        this.clearField();
         this.started = false;
     }
 }

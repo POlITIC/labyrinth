@@ -1,7 +1,7 @@
 import React from 'react';
 import {APP_CONTAINER_ID} from "../constants";
 import PixiApp from "../pixi/PixiApp";
-import {getLabyrinth} from "../ServerAPI";
+import {getLabyrinth, startMatch, stopMatch} from "../ServerAPI";
 import store from "../store/store";
 import {
     clearBotsMatch,
@@ -10,7 +10,12 @@ import {
     startMatchAction
 } from "../store/actionCreators/ActionCreator";
 import {Button, Grid} from "@material-ui/core";
-import BotsView from "./BotsView";
+import {connect} from "react-redux";
+import BotsMatchView from "./bots/BotsMatchView";
+
+const mapStateToProps = ({matchStarted}) => {
+    return {matchStarted};
+};
 
 class MatchPlay extends React.Component {
     async componentDidMount() {
@@ -19,16 +24,25 @@ class MatchPlay extends React.Component {
         if (appContainer) {
             appContainer.appendChild(PixiApp.view);
         }
+
+        await getLabyrinth(store.getState().selectedLabyrinth)
+            .then(async (response) => {
+                const config = response.labyrinth;
+
+                if (config) {
+                    PixiApp.showLabyrinth(config)
+                }
+            });
     }
 
     async startMatch() {
-        await getLabyrinth(0)
+        await getLabyrinth(store.getState().selectedLabyrinth)
             .then(async (response) => {
                 const config = response.labyrinth;
                 if (config) {
                     const startResp = await startMatch();
 
-                    PixiApp.startMatch(config, startResp.botConfigs);
+                    PixiApp.startMatch(startResp.botConfigs);
 
                     store.dispatch(showLabAction(config));
                     store.dispatch(startMatchAction());
@@ -43,16 +57,15 @@ class MatchPlay extends React.Component {
         store.dispatch(clearBotsMatch());
     }
 
-
     render() {
         return (
             <Grid container className="App">
-                <BotsView match chooseCalslback={this.onBotCheck.bind(this)}/>
+                <BotsMatchView match/>
 
                 <Grid item>
-                    <Button variant="contained" color="primary" label="getLab"
+                    <Button variant="contained" color="primary" label="getLab" disabled={this.props.matchStarted}
                             onClick={this.startMatch.bind(this)}>Start</Button>
-                    <Button variant="contained" color="primary" label="getLab"
+                    <Button variant="contained" color="primary" label="getLab" disabled={!this.props.matchStarted}
                             onClick={this.stopMatch.bind(this)}>Stop</Button>
                     <div id={APP_CONTAINER_ID}></div>
                 </Grid>
@@ -61,3 +74,5 @@ class MatchPlay extends React.Component {
         );
     }
 }
+
+export default connect(mapStateToProps)(MatchPlay);

@@ -8,12 +8,12 @@ import {
     Radio,
     RadioGroup
 } from "@material-ui/core";
-import {getAllBots} from "../ServerAPI";
+import {getAllBots} from "../../ServerAPI";
 import {
     setBots,
     setCurrentBot
-} from "../store/actionCreators/ActionCreator";
-import store from "../store/store";
+} from "../../store/actionCreators/ActionCreator";
+import store from "../../store/store";
 
 const mapStateToProps = ({
                              bots,
@@ -25,7 +25,7 @@ const mapStateToProps = ({
                          }) =>
     ({bots, currentBot, botsSelectedToMatch, botsMatchColors, matchStarted, deadBots});
 
-class BotsView extends Component {
+class ChooseBots extends Component {
 
     async componentDidMount() {
         const bots = await getAllBots();
@@ -94,4 +94,4 @@ class BotsView extends Component {
     }
 }
 
-export default connect(mapStateToProps)(BotsView);
+export default connect(mapStateToProps)(ChooseBots);

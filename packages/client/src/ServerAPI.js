@@ -56,8 +56,8 @@ export const login = (name) => {
 /**
  * @param {string} id
  */
-export const getLabyrinth = (id) => {
-    return post({id}, "/labyrinth")
+export const getLabyrinth = (labId) => {
+    return post({labId}, "/labyrinth")
 };
 
 export const getAllBots = () => {
@@ -85,7 +85,8 @@ export const deleteBot = (botName) => {
 
 export const startMatch = () => {
     return post({
-        bots: store.getState().botsSelectedToMatch
+        bots: store.getState().botsSelectedToMatch,
+        labId: store.getState().selectedLabyrinth
     }, "/startMatch");
 };
 

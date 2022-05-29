@@ -11,7 +11,7 @@ import {deleteBot, getBotData, submitCode} from "../ServerAPI";
 import {connect} from "react-redux";
 import {setCurrentBot, updateCode} from "../store/actionCreators/ActionCreator";
 import store from "../store/store";
-import BotsView from "./BotsView";
+import BotsCodeView from "./bots/BotsCodeView";
 
 
 const mapStateToProps = ({code, currentBot}) => {
@@ -126,7 +126,7 @@ class CodeInput extends React.Component {
 		return (
 			<Grid container className="App">
 
-				<BotsView chooseCallback={this.botChosenCallback.bind(this)} key={this.state.mountCount}/>
+				<BotsCodeView chooseCallback={this.botChosenCallback.bind(this)} key={this.state.mountCount}/>
 
 				<Grid item style={{textAlign: "left"}}>
 					Bot Name:

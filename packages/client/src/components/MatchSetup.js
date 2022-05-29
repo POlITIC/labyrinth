@@ -2,20 +2,19 @@ import store from "../store/store";
 import React from 'react';
 import {Button, Grid} from "@material-ui/core";
 import {
-    getLabyrinth,
     userAvailableLabyrinth
 } from "../ServerAPI";
 import {
     addBotToMatch,
-    removeBotFromMatch, saveUserAvailableLabs,
-    showLabAction,
+    removeBotFromMatch, saveUserAvailableLabs, setStage,
 } from "../store/actionCreators/ActionCreator";
 import {connect} from "react-redux";
-import BotsView from "./BotsView";
 import LabyrinthsTable from "./LabyrinthsTable";
+import {stages} from "../store/enums";
+import ChooseBots from "./bots/ChooseBots";
 
 const mapStateToProps = ({botsSelectedToMatch}) => {
-    return {botsSelectedToMatch};
+    return {botsSelectedToMatch: [...botsSelectedToMatch]};
 };
 
 class MatchSetup extends React.Component {
@@ -27,18 +26,7 @@ class MatchSetup extends React.Component {
     }
 
     async startMatch() {
-        await getLabyrinth(0)
-            .then(async (response) => {
-                const config = response.labyrinth;
-                if (config) {
-                    // const startResp = await startMatch();
-
-                    // PixiApp.startMatch(config, startResp.botConfigs);
-
-                    store.dispatch(showLabAction(config));
-                    // store.dispatch(startMatchAction());
-                }
-            });
+        store.dispatch(setStage(stages.MATCH));
     }
 
     onBotCheck(event) {
@@ -57,7 +45,7 @@ class MatchSetup extends React.Component {
         return (
             <Grid container className="App">
                 <Grid item xs={3}>
-                    <BotsView match
+                    <ChooseBots match
                               chooseCallback={this.onBotCheck.bind(this)}/>
                 </Grid>
 

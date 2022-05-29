@@ -6,9 +6,10 @@ import CodeInput from "./CodeInput";
 import MatchSetup from "./MatchSetup";
 import {stages} from "../store/enums";
 import store from "../store/store";
-import {setStage} from "../store/actionCreators/ActionCreator";
+import {clearBotsMatch, setStage} from "../store/actionCreators/ActionCreator";
 import {initSocket} from "../socket/socket";
 import PixiApp from "../pixi/PixiApp";
+import MatchPlay from "./MatchPlay";
 
 const mapStateToProps = ({loginData, stage}) => {
 	return {
@@ -31,8 +32,10 @@ class MainPage extends React.Component {
 		switch (stageName) {
 			case stages.CODE :
 				return (<CodeInput/>);
-			case stages.LABYRINTH :
+			case stages.MATCH_SETUP :
 				return (<MatchSetup/>);
+			case stages.MATCH :
+				return (<MatchPlay/>);
 			default:
 				return "What do you want?";
 		}
@@ -40,6 +43,11 @@ class MainPage extends React.Component {
 
 	setStage(stage) {
 		store.dispatch(setStage(stage));
+	}
+
+	onMathSetupClick() {
+		store.dispatch(clearBotsMatch());
+		this.setStage( stages.MATCH_SETUP);
 	}
 
 	render() {
@@ -53,8 +61,7 @@ class MainPage extends React.Component {
 						<Button variant="contained" color="primary" label="Name"
 								onClick={this.setStage.bind(this, stages.CODE)}>Bot design</Button>
 						<Button variant="contained" color="primary" label="Name"
-								onClick={this.setStage.bind(this, stages.LABYRINTH)}>Death match</Button>
-
+								onClick={this.onMathSetupClick.bind(this)}>Death match setup</Button>
 
 					</Paper>
 

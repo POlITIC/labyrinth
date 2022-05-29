@@ -18,5 +18,7 @@ export const actions = {
 
 export const stages = {
 	LABYRINTH: "labyrinth",
+	MATCH_SETUP: "matchSetup",
+	MATCH: "match",
 	CODE: "code"
 }
