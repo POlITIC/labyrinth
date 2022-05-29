@@ -65,6 +65,9 @@ class User {
     }
 
     stop() {
+        if (!this.playing) {
+            return;
+        }
         this.playing = false;
 
         if(this.matchTimeout){
