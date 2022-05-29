@@ -4,3 +4,5 @@ export const DIRECTIONS = {
     UP:"UP",
     DOWN:"DOWN"
 };
+
+export const APP_CONTAINER_ID = "pixiAppContainer";

@@ -3,7 +3,7 @@ import Container from "@material-ui/core/Container";
 import {Button, Paper} from "@material-ui/core";
 import {connect} from "react-redux";
 import CodeInput from "./CodeInput";
-import LabyrinthField from "./LabyrinthField";
+import MatchSetup from "./MatchSetup";
 import {stages} from "../store/enums";
 import store from "../store/store";
 import {setStage} from "../store/actionCreators/ActionCreator";
@@ -32,7 +32,7 @@ class MainPage extends React.Component {
 			case stages.CODE :
 				return (<CodeInput/>);
 			case stages.LABYRINTH :
-				return (<LabyrinthField/>);
+				return (<MatchSetup/>);
 			default:
 				return "What do you want?";
 		}

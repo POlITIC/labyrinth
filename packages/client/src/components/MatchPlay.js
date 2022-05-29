@@ -1,24 +1,18 @@
-import PixiApp from "../pixi/PixiApp";
-
-import store from "../store/store";
 import React from 'react';
-import {Button, Grid} from "@material-ui/core";
-import {getLabyrinth, startMatch, stopMatch} from "../ServerAPI";
+import {APP_CONTAINER_ID} from "../constants";
+import PixiApp from "../pixi/PixiApp";
+import {getLabyrinth} from "../ServerAPI";
+import store from "../store/store";
 import {
-    addBotToMatch, clearBotsMatch, endMatchAction, removeBotFromMatch,
-    showLabAction, startMatchAction
+    clearBotsMatch,
+    endMatchAction,
+    showLabAction,
+    startMatchAction
 } from "../store/actionCreators/ActionCreator";
-import {connect} from "react-redux";
+import {Button, Grid} from "@material-ui/core";
 import BotsView from "./BotsView";
 
-const APP_CONTAINER_ID = "pixiAppContainer";
-
-const mapStateToProps = () => {
-    return {};
-};
-
-class LabyrinthField extends React.Component {
-
+class MatchPlay extends React.Component {
     async componentDidMount() {
         const appContainer = document.getElementById(APP_CONTAINER_ID);
 
@@ -49,18 +43,11 @@ class LabyrinthField extends React.Component {
         store.dispatch(clearBotsMatch());
     }
 
-    onBotCheck(event) {
-        if(event.target.checked){
-            store.dispatch(addBotToMatch(event.target.value));
-        }else {
-            store.dispatch(removeBotFromMatch(event.target.value));
-        }
-    }
 
     render() {
         return (
             <Grid container className="App">
-                <BotsView match chooseCallback={this.onBotCheck.bind(this)}/>
+                <BotsView match chooseCalslback={this.onBotCheck.bind(this)}/>
 
                 <Grid item>
                     <Button variant="contained" color="primary" label="getLab"
@@ -74,5 +61,3 @@ class LabyrinthField extends React.Component {
         );
     }
 }
-
-export default connect(mapStateToProps)(LabyrinthField);

@@ -9,6 +9,8 @@ import addBotToMatchReducer from "./addBotToMatchReducer";
 import removeBotFromMatchReducer from "./removeBotFromMatchReducer";
 import botColorReducer from "./botColorReducer";
 import deadBotReducer from "./deadBotReducer";
+import userAvailableLabsReducer from "./userAvailableLabsReducer";
+import selectedLabyrinthReducer from "./selectedLabyrinthReducer";
 
 export default function reducer(state, {type, value}) {
 	switch(type) {
@@ -28,6 +30,8 @@ export default function reducer(state, {type, value}) {
 		case actions.START_MATCH: state.matchStarted = true; break;
 		case actions.END_MATCH: state.matchStarted = false; break;
 		case actions.DEAD_BOT: state.deadBots = deadBotReducer(value, state); break;
+		case actions.USER_AVAILABLE_LABS: state.userAvailableLabs = userAvailableLabsReducer(value); break;
+		case actions.SELECTED_LABYRINTH: state.selectedLabyrinth = selectedLabyrinthReducer(value); break;
 	}
 
 	return Object.assign({}, state);

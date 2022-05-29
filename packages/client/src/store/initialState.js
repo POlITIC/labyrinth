@@ -11,6 +11,8 @@ export default {
 	bots: [],
 	currentBot: "",
 	botsSelectedToMatch: [],
+	userAvailableLabs: [],
+	selectedLabyrinth: "testLabyrinth",
 	botsMatchColors: {},
 	deadBots: [],
 	matchStarted: false

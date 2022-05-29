@@ -11,7 +11,9 @@ export const actions = {
 	SET_BOT_COLOR: "setBotColor",
 	START_MATCH: "startMatch",
 	END_MATCH: "endMatch",
-	DEAD_BOT: "deadBot"
+	DEAD_BOT: "deadBot",
+	USER_AVAILABLE_LABS: "userAvailableLabyrinths",
+	SELECTED_LABYRINTH: "selectedLabyrinth"
 };
 
 export const stages = {

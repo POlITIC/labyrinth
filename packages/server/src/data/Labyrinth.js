@@ -32,6 +32,17 @@ const getAllAvailableLabyrinths = () => {
     return labyrinthCollection.find({available: true});
 };
 
+const getUserAvailableLabyrinths = (userId) => {
+    getCollection();
+
+    return labyrinthCollection.find({
+        $or: [
+            {available: true},
+            {userId}
+        ]
+    });
+};
+
 const addOrUpdateLabyrinth = (userId, labyrinthId, {map, available}) => {
     getCollection();
 
@@ -43,11 +54,11 @@ const addOrUpdateLabyrinth = (userId, labyrinthId, {map, available}) => {
     if (!labyrinth) {
         labyrinthCollection.insert({userId, labyrinthId, map, available});
     } else {
-        if(map){
+        if (map) {
             labyrinth.map = map;
         }
 
-        if(typeof available !== "undefined"){
+        if (typeof available !== "undefined") {
             labyrinth.available = available;
         }
 
@@ -57,5 +68,9 @@ const addOrUpdateLabyrinth = (userId, labyrinthId, {map, available}) => {
 
 
 module.exports = {
-    getLabyrinthsByUser, addOrUpdateLabyrinth, getLabyrinthById, getAllAvailableLabyrinths
+    getLabyrinthsByUser,
+    addOrUpdateLabyrinth,
+    getLabyrinthById,
+    getAllAvailableLabyrinths,
+    getUserAvailableLabyrinths
 };

@@ -29,12 +29,13 @@ class BotsView extends Component {
 
     async componentDidMount() {
         const bots = await getAllBots();
+
         store.dispatch(setBots(bots));
     }
 
     getBotItem(botName) {
         return this.props.match
-            ? <Checkbox value={botName} onChange={this.props.chooseCallback}/>
+            ? <Checkbox value={botName} onChange={this.props.chooseCallback} />
             : <Radio value={botName}/>;
     }
 

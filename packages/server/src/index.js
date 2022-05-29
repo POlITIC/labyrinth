@@ -11,7 +11,10 @@ const {loginUser} = require("./data/User");
 const {setupSocket} = require("./socket/socket");
 const {getUserById} = require("./user/User");
 const {addOrUpdateBot, getBot, getUserBots, deleteBot} = require("./data/Bot");
-const {getLabyrinthById} = require("./data/Labyrinth");
+const {
+    getLabyrinthById,
+    getAllAvailableLabyrinths, getLabyrinthsByUser, getUserAvailableLabyrinths
+} = require("./data/Labyrinth");
 const {PRIMAL_LABYRINTH_ID} = require("./data/constants");
 
 setupSocket(http);
@@ -56,14 +59,39 @@ app.post("/login", function (req, res) {
 });
 
 app.post("/labyrinth", function (req, res) {
-    const labId = req.body.labId;
+    const {labId} = req.body;
     const labConf = getLabyrinthById(labId || PRIMAL_LABYRINTH_ID);
 
-    if(labConf){
+    if (labConf) {
         res.send({
             labyrinth: labConf.map
         });
     }
+});
+
+app.post("/userAvailableLabyrinth", function (req, res) {
+    const {sessId} = req.body;
+    const userId = getUserById(sessId).model.$loki;
+    const labs = getUserAvailableLabyrinths(userId);
+    res.send({
+        labs
+    });
+});
+
+app.post("/userCreatedLabyrinths", function (req, res) {
+    const {sessId} = req.body;
+    const userId = getUserById(sessId).model.$loki;
+    const labs = getLabyrinthsByUser(userId)
+    res.send({
+        labs
+    });
+});
+
+app.post("/availableLabyrinth", function (req, res) {
+    const labs = getAllAvailableLabyrinths();
+    res.send({
+        labs
+    });
 });
 
 app.post("/saveBotCode", function (req, res) {

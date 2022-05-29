@@ -92,3 +92,5 @@ export const startMatch = () => {
 export const stopMatch = () => {
     return post({}, "/stopMatch");
 }
+
+export const userAvailableLabyrinth = () => post({}, "/userAvailableLabyrinth");
