@@ -83,7 +83,7 @@ if (pool.length) {
 // Decide where to go
 cmd = DIR[findPath(direction, surrounding)];
 
-// Look at direction of our movement
+// Look at orientation of our movement
 if (direction !== DIR[cmd]) {
     pool.push(cmd);
     pool.push("fire");
